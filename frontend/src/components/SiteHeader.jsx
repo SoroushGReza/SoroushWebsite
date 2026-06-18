@@ -1,7 +1,20 @@
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faRightFromBracket,
+  faUserShield,
+} from "@fortawesome/free-solid-svg-icons";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router";
 
+import { useAuth } from "../context/AuthContext";
+
 function SiteHeader() {
+  const { isAdmin, logout } = useAuth();
+
+  async function handleLogout() {
+    await logout();
+  }
+
   return (
     <Navbar expand="lg" className="site-navbar" variant="dark">
       <Container>
@@ -34,6 +47,29 @@ function SiteHeader() {
             <Nav.Link as={NavLink} to="/contact">
               Contact
             </Nav.Link>
+
+            {isAdmin ? (
+              <Button
+                type="button"
+                variant="link"
+                className="admin-nav-icon admin-nav-button"
+                onClick={handleLogout}
+                aria-label="Admin logout"
+                title="Admin logout"
+              >
+                <FontAwesomeIcon icon={faRightFromBracket} />
+              </Button>
+            ) : (
+              <Nav.Link
+                as={NavLink}
+                to="/admin-login"
+                className="admin-nav-icon"
+                aria-label="Admin login"
+                title="Admin"
+              >
+                <FontAwesomeIcon icon={faUserShield} />
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
