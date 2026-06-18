@@ -1,41 +1,9 @@
-import { useEffect, useState } from "react";
-import {
-  Alert,
-  Badge,
-  Button,
-  Col,
-  Container,
-  Row,
-  Spinner,
-} from "react-bootstrap";
-import { API_BASE_URL } from "../services/apiClient";
+import { Badge, Button, Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router";
+
+import HomePostsSection from "../components/home/HomePostsSection";
 
 function Home() {
-  const [apiStatus, setApiStatus] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {
-    async function fetchApiStatus() {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/`);
-
-        if (!response.ok) {
-          throw new Error("API request failed");
-        }
-
-        const data = await response.json();
-        setApiStatus(data);
-      } catch (error) {
-        setErrorMessage("Could not connect to the Django API.");
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchApiStatus();
-  }, []);
-
   return (
     <>
       <section className="hero-section">
@@ -57,10 +25,16 @@ function Home() {
               </p>
 
               <div className="d-flex flex-wrap gap-3">
-                <Button href="/portfolio" variant="info" size="lg">
+                <Button as={Link} to="/portfolio" variant="info" size="lg">
                   View Portfolio
                 </Button>
-                <Button href="/contact" variant="outline-light" size="lg">
+
+                <Button
+                  as={Link}
+                  to="/contact"
+                  variant="outline-light"
+                  size="lg"
+                >
                   Contact Me
                 </Button>
               </div>
@@ -68,31 +42,19 @@ function Home() {
 
             <Col lg={5}>
               <div className="hero-card">
-                <p className="card-label">Current build status</p>
-
-                {isLoading && (
-                  <div className="d-flex align-items-center gap-2">
-                    <Spinner animation="border" size="sm" />
-                    <span>Connecting to API...</span>
-                  </div>
-                )}
-
-                {errorMessage && (
-                  <Alert variant="danger" className="mb-0">
-                    {errorMessage}
-                  </Alert>
-                )}
-
-                {apiStatus && (
-                  <Alert variant="success" className="mb-0">
-                    <strong>{apiStatus.status}</strong>: {apiStatus.message}
-                  </Alert>
-                )}
+                <p className="card-label">Admin managed content</p>
+                <h2>Dynamic Home page</h2>
+                <p className="mb-0">
+                  Latest posts are loaded from Django. Visitors can read them,
+                  while logged-in admin users can create, edit and delete posts.
+                </p>
               </div>
             </Col>
           </Row>
         </Container>
       </section>
+
+      <HomePostsSection />
 
       <section className="content-section">
         <Container>
@@ -109,10 +71,10 @@ function Home() {
 
             <Col md={4}>
               <div className="info-card">
-                <h2>Latest posts</h2>
+                <h2>Projects</h2>
                 <p>
-                  Admin-created posts with text and images will appear here
-                  after we build the Django model, API and CRUD functionality.
+                  Featured portfolio projects will be connected to Django and
+                  displayed here later.
                 </p>
               </div>
             </Col>
