@@ -19,7 +19,7 @@ function SiteHeader() {
     <Navbar expand="lg" className="site-navbar" variant="dark">
       <Container>
         <Navbar.Brand as={NavLink} to="/" className="brand-logo">
-          Soroush G Reza
+          Soroush Gholamreza
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-navigation" />
