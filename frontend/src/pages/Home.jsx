@@ -11,17 +11,19 @@ function Home() {
           <Row className="align-items-center g-5">
             <Col lg={7}>
               <Badge bg="info" text="dark" className="mb-3 tech-badge">
-                React + Django Portfolio
+                Current focus
               </Badge>
 
               <h1 className="hero-title">
-                Building modern web experiences with clean code and purpose.
+                Data Science student seeking a remote LIA internship
               </h1>
 
               <p className="hero-text">
-                Welcome to my new portfolio. This site will showcase my
-                projects, skills, education, GitHub repositories and
-                downloadable CV.
+                I am a creative full-stack software developer and data science
+                student with a background in psychology, military
+                service, key account management, and customer support. I combine
+                technical problem-solving with people-focused experience to
+                build thoughtful, useful, and data-driven digital solutions.
               </p>
 
               <div className="d-flex flex-wrap gap-3">
@@ -37,17 +39,6 @@ function Home() {
                 >
                   Contact Me
                 </Button>
-              </div>
-            </Col>
-
-            <Col lg={5}>
-              <div className="hero-card">
-                <p className="card-label">Admin managed content</p>
-                <h2>Dynamic Home page</h2>
-                <p className="mb-0">
-                  Latest posts are loaded from Django. Visitors can read them,
-                  while logged-in admin users can create, edit and delete posts.
-                </p>
               </div>
             </Col>
           </Row>
