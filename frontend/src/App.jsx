@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 
+import AdminLogin from "./pages/AdminLogin";
 import Contact from "./pages/Contact";
 import CV from "./pages/CV";
 import Education from "./pages/Education";
@@ -18,6 +19,7 @@ function App() {
 
       <main>
         <Routes>
+          <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/" element={<Home />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/resume" element={<Resume />} />
