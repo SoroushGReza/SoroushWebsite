@@ -143,7 +143,7 @@ function PostManager({
         {!isLoading && posts.length > 0 && (
           <Row className="g-4">
             {posts.map((post) => (
-              <Col lg={6} key={post.id}>
+              <Col lg={12} key={post.id}>
                 <PostCard
                   post={post}
                   isAdmin={isAdmin}
