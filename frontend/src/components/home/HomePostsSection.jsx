@@ -10,7 +10,7 @@ function HomePostsSection() {
   return (
     <PostManager
       sectionLabel="Latest updates"
-      sectionTitle="Home posts"
+      sectionTitle=""
       emptyMessage="No Home posts have been published yet."
       addButtonText="Add new Home post"
       fetchPosts={getHomePosts}
