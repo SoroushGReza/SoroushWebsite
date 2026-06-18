@@ -12,15 +12,15 @@ function formatPostDate(dateValue) {
   });
 }
 
-function HomePostCard({ post, isAdmin = false, onEdit, onDelete }) {
+function PostCard({ post, isAdmin = false, onEdit, onDelete }) {
   return (
-    <Card className="home-post-card">
+    <Card className="post-card">
       {post.image_url && (
         <Card.Img
           variant="top"
           src={post.image_url}
           alt={post.title}
-          className="home-post-image"
+          className="post-image"
         />
       )}
 
@@ -80,4 +80,4 @@ function HomePostCard({ post, isAdmin = false, onEdit, onDelete }) {
   );
 }
 
-export default HomePostCard;
+export default PostCard;
