@@ -6,7 +6,7 @@ function CV() {
     <>
       <AnimatedHero
         canvasText="CV"
-        topLabel="Downloadable CV · Professional Profile"
+        topLabel="Downloadable CV"
         theme="green"
       />
 

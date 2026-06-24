@@ -6,7 +6,7 @@ function Education() {
     <>
       <AnimatedHero
         canvasText="EDUCATION"
-        topLabel="Studies · Learning · Data Science"
+        topLabel="My Studies and Diplomas"
         theme="blue"
       />
 

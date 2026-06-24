@@ -6,7 +6,7 @@ function GitHub() {
     <>
       <AnimatedHero
         canvasText="GITHUB"
-        topLabel="Repositories · Code · Experiments"
+        topLabel="Repositories · Code"
         theme="orange"
       />
 
