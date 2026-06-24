@@ -1,11 +1,24 @@
 import { Container } from "react-bootstrap";
+import AnimatedHero from "../components/home/AnimatedHero";
 
 function Contact() {
   return (
-    <Container className="page-section">
-      <h1>Contact</h1>
-      <p>A contact form for visitors will be added here later.</p>
-    </Container>
+    <>
+      <AnimatedHero
+        canvasText="CONTACT"
+        topLabel="Get In Touch · Collaboration"
+        theme="rose"
+      />
+
+      <section className="page-section">
+        <Container>
+          <h1>Contact</h1>
+          <p>
+            Contact information and a contact form will be added here later.
+          </p>
+        </Container>
+      </section>
+    </>
   );
 }
 
