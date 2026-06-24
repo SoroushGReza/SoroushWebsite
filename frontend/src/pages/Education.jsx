@@ -1,11 +1,22 @@
 import { Container } from "react-bootstrap";
+import AnimatedHero from "../components/home/AnimatedHero";
 
 function Education() {
   return (
-    <Container className="page-section">
-      <h1>Education</h1>
-      <p>Studies, courses and education details will be added here later.</p>
-    </Container>
+    <>
+      <AnimatedHero
+        canvasText="EDUCATION"
+        topLabel="Studies · Learning · Data Science"
+        theme="blue"
+      />
+
+      <section className="page-section">
+        <Container>
+          <h1>Education</h1>
+          <p>Education, courses and academic background will be added here later.</p>
+        </Container>
+      </section>
+    </>
   );
 }
 
