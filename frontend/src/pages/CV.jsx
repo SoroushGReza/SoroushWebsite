@@ -1,13 +1,22 @@
 import { Container } from "react-bootstrap";
+import AnimatedHero from "../components/home/AnimatedHero";
 
 function CV() {
   return (
-    <Container className="page-section">
-      <h1>CV</h1>
-      <p>
-        Downloadable PDF CV files controlled by admin will be added here later.
-      </p>
-    </Container>
+    <>
+      <AnimatedHero
+        canvasText="CV"
+        topLabel="Downloadable CV · Professional Profile"
+        theme="green"
+      />
+
+      <section className="page-section">
+        <Container>
+          <h1>CV</h1>
+          <p>Downloadable CV files will be added here later.</p>
+        </Container>
+      </section>
+    </>
   );
 }
 
