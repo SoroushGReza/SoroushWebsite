@@ -1,13 +1,25 @@
 import { Container } from "react-bootstrap";
+import AnimatedHero from "../components/home/AnimatedHero";
 
 function Resume() {
   return (
-    <Container className="page-section">
-      <h1>Resume</h1>
-      <p>
-        Skills, experience and professional summary will be added here later.
-      </p>
-    </Container>
+    <>
+      <AnimatedHero
+        canvasText="RESUME"
+        topLabel="Skills · Experience · Background"
+        theme="purple"
+      />
+
+      <section className="page-section">
+        <Container>
+          <h1>Resume</h1>
+          <p>
+            Skills, experience and professional background will be added here
+            later.
+          </p>
+        </Container>
+      </section>
+    </>
   );
 }
 
