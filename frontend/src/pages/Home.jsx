@@ -1,11 +1,18 @@
 import { Badge, Button, Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router";
 
+import AnimatedHero from "../components/home/AnimatedHero";
 import HomePostsSection from "../components/home/HomePostsSection";
 
 function Home() {
   return (
     <>
+      <AnimatedHero
+        canvasText="SOROUSH"
+        topLabel="Data Science Student · Fullstack Developer"
+        theme="gold"
+      />
+
       <section className="hero-section">
         <Container>
           <Row className="align-items-center g-5">
@@ -20,10 +27,10 @@ function Home() {
 
               <p className="hero-text">
                 I am a creative full-stack software developer and data science
-                student with a background in psychology, military
-                service, key account management, and customer support. I combine
-                technical problem-solving with people-focused experience to
-                build thoughtful, useful, and data-driven digital solutions.
+                student with a background in psychology, military service, key
+                account management, and customer support. I combine technical
+                problem-solving with people-focused experience to build
+                thoughtful, useful, and data-driven digital solutions.
               </p>
 
               <div className="d-flex flex-wrap gap-3">
