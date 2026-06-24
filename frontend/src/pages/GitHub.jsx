@@ -1,11 +1,22 @@
 import { Container } from "react-bootstrap";
+import AnimatedHero from "../components/home/AnimatedHero";
 
 function GitHub() {
   return (
-    <Container className="page-section">
-      <h1>GitHub</h1>
-      <p>Public GitHub repositories will be listed here later.</p>
-    </Container>
+    <>
+      <AnimatedHero
+        canvasText="GITHUB"
+        topLabel="Repositories · Code · Experiments"
+        theme="orange"
+      />
+
+      <section className="page-section">
+        <Container>
+          <h1>GitHub</h1>
+          <p>Public GitHub repositories will be listed here later.</p>
+        </Container>
+      </section>
+    </>
   );
 }
 
