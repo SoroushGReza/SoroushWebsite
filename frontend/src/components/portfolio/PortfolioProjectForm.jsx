@@ -3,6 +3,7 @@ import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
 
 function getInitialFormData(project) {
   return {
+    display_order: project?.display_order ?? 100,
     name: project?.name || "",
     project_type: project?.project_type || "portfolio",
     description: project?.description || "",
@@ -183,6 +184,23 @@ function PortfolioProjectForm({
 
         <Form onSubmit={handleSubmit}>
           <Row className="g-3">
+            <Col md={6}>
+              <Form.Group controlId="portfolio-project-display-order">
+                <Form.Label>Display order</Form.Label>
+                <Form.Control
+                  type="number"
+                  min="1"
+                  name="display_order"
+                  value={formData.display_order}
+                  onChange={handleChange}
+                  placeholder="1 = shown first"
+                />
+                <Form.Text>
+                  Lower numbers appear first. Example: 1 is shown before 2.
+                </Form.Text>
+              </Form.Group>
+            </Col>
+            
             <Col md={6}>
               <Form.Group controlId="portfolio-project-name">
                 <Form.Label>Project name</Form.Label>
