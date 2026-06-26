@@ -60,11 +60,15 @@ main {
 .nav-links .nav-link {
   color: rgba(248, 250, 252, 0.78);
   font-weight: 500;
+  transition:
+    color 0.2s ease,
+    text-shadow 0.2s ease;
 }
 
 .nav-links .nav-link:hover,
 .nav-links .nav-link.active {
-  color: #0dcaf0;
+  color: var(--nav-accent);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--nav-accent) 55%, transparent);
 }
 
 .hero-section {
