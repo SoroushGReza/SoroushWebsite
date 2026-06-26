@@ -1,49 +1,144 @@
-import { useEffect, useState } from "react";
-import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
+import { useCallback, useEffect, useState } from "react";
+import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
 
 import AnimatedHero from "../components/home/AnimatedHero";
 import PortfolioProjectCard from "../components/portfolio/PortfolioProjectCard";
-import { getPortfolioProjects } from "../services/portfolioApi";
+import PortfolioProjectForm from "../components/portfolio/PortfolioProjectForm";
+import { useAuth } from "../context/AuthContext";
+import {
+  createPortfolioProject,
+  createPortfolioProjectImage,
+  createProjectContributor,
+  deletePortfolioProject,
+  getPortfolioProjects,
+  getTechStackOptions,
+  updatePortfolioProject,
+} from "../services/portfolioApi";
 
 function Portfolio() {
+  const { isAdmin } = useAuth();
+
   const [projects, setProjects] = useState([]);
+  const [techStackOptions, setTechStackOptions] = useState([]);
+  const [editingProject, setEditingProject] = useState(null);
+  const [showCreateForm, setShowCreateForm] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    async function loadProjects() {
-      try {
-        const data = await getPortfolioProjects();
-        setProjects(data);
-      } catch (error) {
-        setErrorMessage(error.message || "Could not load portfolio projects.");
-      } finally {
-        setIsLoading(false);
-      }
-    }
+  const loadProjects = useCallback(async () => {
+    setErrorMessage("");
 
-    loadProjects();
+    try {
+      const data = await getPortfolioProjects();
+      setProjects(data);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not load portfolio projects.");
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  function getProjectColumnSize() {
-    if (projects.length === 1) {
-      return {
-        xs: 12,
-      };
+  const loadTechStackOptions = useCallback(async () => {
+    if (!isAdmin) {
+      return;
     }
 
-    if (projects.length === 2) {
-      return {
-        xs: 12,
-        lg: 6,
-      };
+    try {
+      const data = await getTechStackOptions();
+      setTechStackOptions(data);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not load tech stack options.");
+    }
+  }, [isAdmin]);
+
+  useEffect(() => {
+    loadProjects();
+  }, [loadProjects]);
+
+  useEffect(() => {
+    loadTechStackOptions();
+  }, [loadTechStackOptions]);
+
+  function handleCreateClick() {
+    setEditingProject(null);
+    setShowCreateForm(true);
+  }
+
+  function handleEdit(project) {
+    setEditingProject(project);
+    setShowCreateForm(false);
+  }
+
+  function handleCancelForm() {
+    setEditingProject(null);
+    setShowCreateForm(false);
+    setErrorMessage("");
+  }
+
+  async function handleSubmit(formData) {
+    setIsSubmitting(true);
+    setErrorMessage("");
+
+    const { imageFiles, contributors, ...projectPayload } = formData;
+
+    try {
+      if (editingProject) {
+        await updatePortfolioProject(editingProject.slug, projectPayload);
+      } else {
+        const createdProject = await createPortfolioProject(projectPayload);
+
+        for (const [index, imageFile] of imageFiles.entries()) {
+          const imageData = new FormData();
+
+          imageData.append("project", createdProject.id);
+          imageData.append("image", imageFile);
+          imageData.append("order", index);
+
+          await createPortfolioProjectImage(imageData);
+        }
+
+        const validContributors = contributors.filter((contributor) =>
+          contributor.name.trim(),
+        );
+
+        for (const [index, contributor] of validContributors.entries()) {
+          await createProjectContributor({
+            project: createdProject.id,
+            name: contributor.name.trim(),
+            github_url: contributor.github_url.trim(),
+            role: contributor.role.trim(),
+            order: index,
+          });
+        }
+      }
+
+      await loadProjects();
+      setEditingProject(null);
+      setShowCreateForm(false);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not save portfolio project.");
+      throw error;
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  async function handleDelete(project) {
+    const shouldDelete = window.confirm(`Delete "${project.name}"?`);
+
+    if (!shouldDelete) {
+      return;
     }
 
-    return {
-      xs: 12,
-      md: 6,
-      xl: 4,
-    };
+    setErrorMessage("");
+
+    try {
+      await deletePortfolioProject(project.slug);
+      await loadProjects();
+    } catch (error) {
+      setErrorMessage(error.message || "Could not delete portfolio project.");
+    }
   }
 
   return (
@@ -58,12 +153,30 @@ function Portfolio() {
         <Container>
           <div className="section-header portfolio-page-heading">
             <div>
-              <h1 className="page-title">Portfolio</h1>
               <p className="card-label">Selected work</p>
+              <h1>Portfolio</h1>
             </div>
           </div>
 
+          {isAdmin && !showCreateForm && !editingProject && (
+            <div className="mb-4">
+              <Button type="button" variant="info" onClick={handleCreateClick}>
+                Add new portfolio project
+              </Button>
+            </div>
+          )}
+
           {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+
+          {isAdmin && (showCreateForm || editingProject) && (
+            <PortfolioProjectForm
+              initialProject={editingProject}
+              techStackOptions={techStackOptions}
+              isSubmitting={isSubmitting}
+              onCancel={handleCancelForm}
+              onSubmit={handleSubmit}
+            />
+          )}
 
           {isLoading && (
             <div className="d-flex align-items-center gap-2">
@@ -84,7 +197,12 @@ function Portfolio() {
             <Row className="g-4 align-items-stretch">
               {projects.map((project) => (
                 <Col xs={12} lg={6} key={project.id}>
-                  <PortfolioProjectCard project={project} />
+                  <PortfolioProjectCard
+                    project={project}
+                    isAdmin={isAdmin}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
                 </Col>
               ))}
             </Row>
