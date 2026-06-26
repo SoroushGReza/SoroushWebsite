@@ -53,6 +53,10 @@ class PortfolioProject(models.Model):
         choices=PortfolioProjectType.choices,
         default=PortfolioProjectType.PORTFOLIO,
     )
+    display_order = models.PositiveIntegerField(
+        default=100,
+        help_text="Lower numbers appear first. Example: 1 is shown before 2.",
+    )
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     description = models.TextField()
 
@@ -93,7 +97,7 @@ class PortfolioProject(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ["display_order", "-created_at"]
 
     def save(self, *args, **kwargs):
         if not self.slug:

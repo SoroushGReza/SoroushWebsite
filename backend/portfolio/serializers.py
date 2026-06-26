@@ -125,6 +125,7 @@ class PortfolioProjectSerializer(serializers.ModelSerializer):
             "name",
             "project_type",
             "project_type_label",
+            "display_order",
             "slug",
             "description",
             "images",

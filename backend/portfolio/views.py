@@ -69,7 +69,7 @@ class PortfolioProjectViewSet(viewsets.ModelViewSet):
             "images",
             "contributors",
             "tech_stack",
-        )
+        ).order_by("display_order", "-created_at")
 
         if self.request.user.is_staff:
             return queryset

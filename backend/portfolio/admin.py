@@ -43,6 +43,7 @@ class PortfolioProjectAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "project_type",
+        "display_order",
         "is_featured",
         "is_published",
         "created_at",
@@ -63,6 +64,7 @@ class PortfolioProjectAdmin(admin.ModelAdmin):
         "databases",
     )
     prepopulated_fields = {"slug": ("name",)}
+    list_editable = ("display_order",)
     filter_horizontal = ("tech_stack",)
     readonly_fields = ("created_at", "updated_at")
     inlines = (PortfolioProjectImageInline, ProjectContributorInline)
@@ -74,6 +76,7 @@ class PortfolioProjectAdmin(admin.ModelAdmin):
                 "fields": (
                     "name",
                     "project_type",
+                    "display_order",
                     "slug",
                     "description",
                     "is_featured",
