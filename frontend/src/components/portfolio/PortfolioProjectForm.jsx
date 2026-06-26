@@ -4,6 +4,7 @@ import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
 function getInitialFormData(project) {
   return {
     name: project?.name || "",
+    project_type: project?.project_type || "portfolio",
     description: project?.description || "",
     live_website_url: project?.live_website_url || "",
     github_url: project?.github_url || "",
@@ -192,6 +193,22 @@ function PortfolioProjectForm({
                   onChange={handleChange}
                   required
                 />
+              </Form.Group>
+            </Col>
+
+            <Col md={6}>
+              <Form.Group controlId="portfolio-project-type">
+                <Form.Label>Project type</Form.Label>
+                <Form.Select
+                  name="project_type"
+                  value={formData.project_type}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="portfolio">Portfolio Project</option>
+                  <option value="hackathon">Hackathon Project</option>
+                  <option value="freelance">Freelance Project</option>
+                </Form.Select>
               </Form.Group>
             </Col>
 
