@@ -637,6 +637,74 @@ main {
   padding-top: 1.5rem;
 }
 
+.portfolio-tech-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.5rem 1rem;
+  padding: 1rem;
+  background: rgba(5, 8, 22, 0.65);
+  border: 1px solid rgba(13, 202, 240, 0.18);
+  border-radius: 1rem;
+}
+
+.portfolio-tech-checkboxes .form-check-label {
+  color: #cbd5e1;
+}
+
+.portfolio-selected-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.portfolio-selected-files span {
+  padding: 0.4rem 0.7rem;
+  color: #67e8f9;
+  background: rgba(5, 8, 22, 0.75);
+  border: 1px solid rgba(13, 202, 240, 0.2);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.portfolio-contributor-form-section {
+  padding: 1rem;
+  background: rgba(5, 8, 22, 0.65);
+  border: 1px solid rgba(13, 202, 240, 0.18);
+  border-radius: 1rem;
+}
+
+.portfolio-form-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.portfolio-form-section-header p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.portfolio-contributor-form-row {
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.42);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 0.85rem;
+}
+
+.portfolio-contributor-form-row + .portfolio-contributor-form-row {
+  margin-top: 1rem;
+}
+
+@media (max-width: 767.98px) {
+  .portfolio-form-section-header {
+    flex-direction: column;
+  }
+}
+
 /* Hide page heading when desktop animated hero is visible */
 @media (min-width: 992px) {
   .portfolio-page-heading {
