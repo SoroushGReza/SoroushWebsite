@@ -785,7 +785,7 @@ main {
   height: 100%;
   overflow: hidden;
   background: rgba(5, 5, 8, 0.82);
-  border: 1px solid rgba(168, 85, 247, 0.24);
+  border: 1px solid rgba(85, 247, 96, 0.24);
   border-radius: 1.15rem;
   color: #f8fafc;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
@@ -800,12 +800,12 @@ main {
 
 .cv-document-card .card-title {
   margin: 0;
-  color: #c084fc;
+  color: #22c55e;
   font-size: clamp(1.7rem, 3vw, 2.5rem);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;
-  text-shadow: 0 0 20px rgba(192, 132, 252, 0.24);
+  text-shadow: 0 0 1px #86efac;
 }
 
 .cv-document-description {
@@ -819,7 +819,7 @@ main {
   font-size: 1.02rem;
   line-height: 1.75;
   scrollbar-width: thin;
-  scrollbar-color: rgba(192, 132, 252, 0.45) rgba(5, 8, 22, 0.75);
+  scrollbar-color: rgba(132, 252, 148, 0.45) rgba(5, 8, 22, 0.75);
 }
 
 .cv-document-description::-webkit-scrollbar {
@@ -832,7 +832,7 @@ main {
 }
 
 .cv-document-description::-webkit-scrollbar-thumb {
-  background: rgba(192, 132, 252, 0.45);
+  background: rgba(132, 252, 158, 0.45);
   border-radius: 999px;
 }
 
@@ -848,7 +848,7 @@ main {
 .cv-document-meta span {
   padding: 0.35rem 0.65rem;
   background: rgba(5, 8, 22, 0.75);
-  border: 1px solid rgba(168, 85, 247, 0.18);
+  border: 1px solid rgba(85, 247, 90, 0.18);
   border-radius: 999px;
 }
 

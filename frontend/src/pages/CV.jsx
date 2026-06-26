@@ -99,7 +99,7 @@ function CV() {
       <AnimatedHero
         canvasText="CV"
         topLabel="Downloadable CV Documents"
-        theme="purple"
+        theme="green"
       />
 
       <section className="page-section">
@@ -113,7 +113,7 @@ function CV() {
 
           {isAdmin && !showCreateForm && !editingCVDocument && (
             <div className="mb-4">
-              <Button type="button" variant="info" onClick={handleCreateClick}>
+              <Button type="button" variant="success" onClick={handleCreateClick}>
                 Upload new CV
               </Button>
             </div>

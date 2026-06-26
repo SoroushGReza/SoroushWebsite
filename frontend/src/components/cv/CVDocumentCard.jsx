@@ -43,7 +43,7 @@ function CVDocumentCard({ cvDocument, isAdmin = false, onEdit, onDelete }) {
             href={cvDocument.file_url}
             target="_blank"
             rel="noreferrer"
-            variant="info"
+            variant="success"
           >
             Open PDF
           </Button>
