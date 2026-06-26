@@ -110,35 +110,40 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
           </div>
         )}
 
-        {hasLinks && (
-          <div className="portfolio-project-actions">
-            {project.live_website_url && (
-              <Button
-                href={project.live_website_url}
-                target="_blank"
-                rel="noreferrer"
-                variant="info"
-              >
-                Live Website
-              </Button>
-            )}
+        {(hasLinks || isAdmin) && (
+          <div className="portfolio-card-actions">
+            <div className="portfolio-project-actions">
+              {project.live_website_url && (
+                <Button
+                  href={project.live_website_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="info"
+                  className="portfolio-card-button"
+                >
+                  Live Website
+                </Button>
+              )}
 
-            {project.github_url && (
-              <Button
-                href={project.github_url}
-                target="_blank"
-                rel="noreferrer"
-                variant="outline-light"
-              >
-                GitHub
-              </Button>
-            )}
+              {project.github_url && (
+                <Button
+                  href={project.github_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="outline-light"
+                  className="portfolio-card-button"
+                >
+                  GitHub
+                </Button>
+              )}
+            </div>
 
             {isAdmin && (
-              <div className="admin-post-actions">
+              <div className="portfolio-admin-actions">
                 <Button
                   type="button"
                   variant="outline-info"
+                  className="portfolio-card-button"
                   onClick={() => onEdit(project)}
                 >
                   Edit
@@ -147,6 +152,7 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
                 <Button
                   type="button"
                   variant="outline-danger"
+                  className="portfolio-card-button"
                   onClick={() => onDelete(project)}
                 >
                   Delete
