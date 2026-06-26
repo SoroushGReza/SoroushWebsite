@@ -1,6 +1,6 @@
 import { Badge, Button, Card, Carousel } from "react-bootstrap";
 
-function PortfolioProjectCard({ project }) {
+function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
   const hasImages = project.images && project.images.length > 0;
   const hasMultipleImages = project.images && project.images.length > 1;
   const hasLinks = project.live_website_url || project.github_url;
@@ -132,6 +132,26 @@ function PortfolioProjectCard({ project }) {
               >
                 GitHub
               </Button>
+            )}
+
+            {isAdmin && (
+              <div className="admin-post-actions">
+                <Button
+                  type="button"
+                  variant="outline-info"
+                  onClick={() => onEdit(project)}
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="outline-danger"
+                  onClick={() => onDelete(project)}
+                >
+                  Delete
+                </Button>
+              </div>
             )}
           </div>
         )}
