@@ -778,3 +778,100 @@ main {
     display: flex;
   }
 }
+
+/*---------------------------- CV PAGE ------------------------------*/
+
+.cv-document-card {
+  height: 100%;
+  overflow: hidden;
+  background: rgba(5, 5, 8, 0.82);
+  border: 1px solid rgba(168, 85, 247, 0.24);
+  border-radius: 1.15rem;
+  color: #f8fafc;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}
+
+.cv-document-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cv-document-card .card-title {
+  margin: 0;
+  color: #c084fc;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 20px rgba(192, 132, 252, 0.24);
+}
+
+.cv-document-description {
+  height: calc(1.75em * 5);
+  margin-top: 1rem;
+  margin-bottom: 0;
+  padding-right: 0.45rem;
+  overflow-y: auto;
+  color: #cbd5e1;
+  white-space: pre-line;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192, 132, 252, 0.45) rgba(5, 8, 22, 0.75);
+}
+
+.cv-document-description::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cv-document-description::-webkit-scrollbar-track {
+  background: rgba(5, 8, 22, 0.75);
+  border-radius: 999px;
+}
+
+.cv-document-description::-webkit-scrollbar-thumb {
+  background: rgba(192, 132, 252, 0.45);
+  border-radius: 999px;
+}
+
+.cv-document-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.cv-document-meta span {
+  padding: 0.35rem 0.65rem;
+  background: rgba(5, 8, 22, 0.75);
+  border: 1px solid rgba(168, 85, 247, 0.18);
+  border-radius: 999px;
+}
+
+.cv-document-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.cv-document-actions .btn {
+  width: auto;
+  min-width: auto;
+}
+
+@media (min-width: 992px) {
+  .cv-page-heading {
+    display: none;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .cv-page-heading {
+    display: flex;
+  }
+}
