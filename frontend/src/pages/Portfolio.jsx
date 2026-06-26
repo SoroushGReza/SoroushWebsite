@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
-
 import AnimatedHero from "../components/home/AnimatedHero";
 import PortfolioProjectCard from "../components/portfolio/PortfolioProjectCard";
 import PortfolioProjectForm from "../components/portfolio/PortfolioProjectForm";
@@ -10,9 +9,12 @@ import {
   createPortfolioProjectImage,
   createProjectContributor,
   deletePortfolioProject,
+  deletePortfolioProjectImage,
+  deleteProjectContributor,
   getPortfolioProjects,
   getTechStackOptions,
   updatePortfolioProject,
+  updateProjectContributor,
 } from "../services/portfolioApi";
 
 function Portfolio() {
@@ -80,11 +82,61 @@ function Portfolio() {
     setIsSubmitting(true);
     setErrorMessage("");
 
-    const { imageFiles, contributors, ...projectPayload } = formData;
+    const {
+      imageFiles,
+      existingImages,
+      deletedImageIds,
+      contributors,
+      deletedContributorIds,
+      ...projectPayload
+    } = formData;
 
     try {
       if (editingProject) {
-        await updatePortfolioProject(editingProject.slug, projectPayload);
+        const updatedProject = await updatePortfolioProject(
+          editingProject.slug,
+          projectPayload,
+        );
+
+        const projectId = updatedProject.id || editingProject.id;
+
+        for (const imageId of deletedImageIds) {
+          await deletePortfolioProjectImage(imageId);
+        }
+
+        for (const [index, imageFile] of imageFiles.entries()) {
+          const imageData = new FormData();
+
+          imageData.append("project", projectId);
+          imageData.append("image", imageFile);
+          imageData.append("order", existingImages.length + index);
+
+          await createPortfolioProjectImage(imageData);
+        }
+
+        for (const contributorId of deletedContributorIds) {
+          await deleteProjectContributor(contributorId);
+        }
+
+        const validContributors = contributors.filter((contributor) =>
+          contributor.name.trim(),
+        );
+
+        for (const [index, contributor] of validContributors.entries()) {
+          const contributorPayload = {
+            project: projectId,
+            name: contributor.name.trim(),
+            github_url: contributor.github_url.trim(),
+            role: contributor.role.trim(),
+            order: index,
+          };
+
+          if (contributor.id) {
+            await updateProjectContributor(contributor.id, contributorPayload);
+          } else {
+            await createProjectContributor(contributorPayload);
+          }
+        }
       } else {
         const createdProject = await createPortfolioProject(projectPayload);
 
@@ -168,9 +220,9 @@ function Portfolio() {
 
           {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
-          {isAdmin && (showCreateForm || editingProject) && (
+          {isAdmin && showCreateForm && !editingProject && (
             <PortfolioProjectForm
-              initialProject={editingProject}
+              initialProject={null}
               techStackOptions={techStackOptions}
               isSubmitting={isSubmitting}
               onCancel={handleCancelForm}
@@ -196,14 +248,28 @@ function Portfolio() {
           {!isLoading && projects.length > 0 && (
             <Row className="g-4 align-items-stretch">
               {projects.map((project) => (
-                <Col xs={12} lg={6} key={project.id}>
-                  <PortfolioProjectCard
-                    project={project}
-                    isAdmin={isAdmin}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
-                </Col>
+                <Fragment key={project.id}>
+                  <Col xs={12} lg={6}>
+                    <PortfolioProjectCard
+                      project={project}
+                      isAdmin={isAdmin}
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                    />
+                  </Col>
+
+                  {isAdmin && editingProject?.id === project.id && (
+                    <Col xs={12}>
+                      <PortfolioProjectForm
+                        initialProject={editingProject}
+                        techStackOptions={techStackOptions}
+                        isSubmitting={isSubmitting}
+                        onCancel={handleCancelForm}
+                        onSubmit={handleSubmit}
+                      />
+                    </Col>
+                  )}
+                </Fragment>
               ))}
             </Row>
           )}
