@@ -488,3 +488,143 @@ main {
     display: none;
   }
 }
+
+/*--------------------------- PORTFOLIO PROJECTS ----------------------- */
+
+.page-title {
+  margin-bottom: 0.3rem;
+  color: #0dcaf0 !important;
+  font-size: clamp(3.7rem, 5vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 20px rgba(13, 202, 240, 0.24);
+}
+
+.portfolio-project-card {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: rgba(5, 5, 8, 0.82);
+  border: 1px solid rgba(13, 202, 240, 0.22);
+  border-radius: 1.15rem;
+  color: #f8fafc;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}
+
+.portfolio-project-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 1.4rem 1rem;
+  border-bottom: 1px solid rgba(13, 202, 240, 0.14);
+}
+
+.portfolio-project-title {
+  margin: 0;
+  color: #0dcaf0;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 20px rgba(13, 202, 240, 0.24);
+}
+
+.portfolio-featured-badge {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.portfolio-project-media {
+  background: rgba(5, 8, 22, 0.75);
+  border-bottom: 1px solid rgba(13, 202, 240, 0.16);
+}
+
+.portfolio-project-media .carousel-item {
+  background: rgba(5, 8, 22, 0.75);
+}
+
+.portfolio-project-image {
+  width: 100%;
+  height: clamp(240px, 24vw, 360px);
+  object-fit: contain;
+  background: rgba(5, 8, 22, 0.75);
+}
+
+.portfolio-project-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.portfolio-project-card .card-text {
+  color: #cbd5e1;
+  white-space: pre-line;
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.portfolio-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+.portfolio-tech-badge {
+  border: 1px solid rgba(13, 202, 240, 0.22);
+  font-weight: 600;
+}
+
+.portfolio-project-meta {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  color: #cbd5e1;
+}
+
+.portfolio-project-meta p {
+  margin: 0;
+}
+
+.portfolio-contributors {
+  margin-top: 1rem;
+  color: #cbd5e1;
+}
+
+.portfolio-contributor-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.portfolio-contributor-list a,
+.portfolio-contributor-list span {
+  color: #67e8f9;
+  font-weight: 600;
+}
+
+.portfolio-project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+/* Hide page heading when desktop animated hero is visible */
+@media (min-width: 992px) {
+  .portfolio-page-heading {
+    display: none;
+  }
+}
+
+/* Show page heading when animated hero is hidden */
+@media (max-width: 991.98px) {
+  .portfolio-page-heading {
+    display: flex;
+  }
+}
