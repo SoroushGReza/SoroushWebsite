@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import styles from "./AnimatedHero.module.css";
 
 const HERO_THEMES = {
   gold: {
@@ -197,16 +198,16 @@ function AnimatedHero({
     }
 
     function handleMouseMove(event) {
-      cursor.classList.add("visible");
+      cursor.classList.add(styles.visible);
       updateMousePosition(event.clientX, event.clientY);
     }
 
     function handleMouseEnter() {
-      cursor.classList.add("visible");
+      cursor.classList.add(styles.visible);
     }
 
     function handleMouseLeave() {
-      cursor.classList.remove("visible");
+      cursor.classList.remove(styles.visible);
       cursor.classList.remove("big");
 
       mouseX = -9999;
@@ -222,11 +223,11 @@ function AnimatedHero({
     }
 
     function handleMouseDown() {
-      cursor.classList.add("big");
+      cursor.classList.add(styles.big);
     }
 
     function handleMouseUp() {
-      cursor.classList.remove("big");
+      cursor.classList.remove(styles.big);
     }
 
     function spawnGlint(x, y) {
@@ -433,22 +434,22 @@ function AnimatedHero({
   return (
     <section
       ref={heroRef}
-      className="animated-hero"
+      className={styles.animatedHero}
       style={{
         "--animated-hero-accent": colors.accent,
         "--animated-hero-accent-bright": colors.accentBright,
       }}
     >
-      <div ref={cursorRef} className="animated-hero-cursor" />
+      <div ref={cursorRef} className={styles.animatedHeroCursor} />
 
-      <div className="animated-hero-top-bar">
-        <div className="animated-hero-dot" />
-        <span className="animated-hero-top-label">{topLabel}</span>
-        <div className="animated-hero-dot" />
+      <div className={styles.animatedHeroTopBar}>
+        <div className={styles.animatedHeroDot} />
+        <span className={styles.animatedHeroTopLabel}>{topLabel}</span>
+        <div className={styles.animatedHeroDot} />
       </div>
 
-      <canvas ref={bgCanvasRef} className="animated-hero-bg" />
-      <canvas ref={mainCanvasRef} className="animated-hero-main" />
+      <canvas ref={bgCanvasRef} className={styles.animatedHeroBg} />
+      <canvas ref={mainCanvasRef} className={styles.animatedHeroMain} />
     </section>
   );
 }

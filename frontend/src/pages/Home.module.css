@@ -1,0 +1,57 @@
+.heroSection {
+  padding: 1rem 0 5rem;
+  background: transparent;
+}
+
+.heroTitle {
+  max-width: 760px;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.heroText {
+  max-width: 640px;
+  margin: 1.5rem 0 2rem;
+  color: #cbd5e1;
+  font-size: 1rem;
+}
+
+.techBadge {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.contentSection {
+  padding: 4rem 0;
+  background: transparent;
+}
+
+.infoCard {
+  height: 100%;
+  padding: 1.5rem;
+  background: rgba(5, 5, 8, 0.72);
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  border-radius: 1.5rem;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+}
+
+.infoCard h2 {
+  color: #f8fafc;
+  font-weight: 800;
+}
+
+.infoCard p {
+  color: #cbd5e1;
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 4rem 0 3rem;
+  }
+
+  .heroTitle {
+    letter-spacing: -0.04em;
+  }
+}

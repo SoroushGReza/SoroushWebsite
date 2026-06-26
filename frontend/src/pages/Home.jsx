@@ -3,6 +3,7 @@ import { Link } from "react-router";
 
 import AnimatedHero from "../components/home/AnimatedHero";
 import HomePostsSection from "../components/home/HomePostsSection";
+import styles from "./Home.module.css";
 
 function Home() {
   return (
@@ -13,19 +14,23 @@ function Home() {
         theme="gold"
       />
 
-      <section className="hero-section">
+      <section className={styles.heroSection}>
         <Container>
           <Row className="align-items-center g-5">
             <Col lg={7}>
-              <Badge bg="info" text="dark" className="mb-3 tech-badge">
+              <Badge
+                bg="info"
+                text="dark"
+                className={`mb-3 ${styles.techBadge}`}
+              >
                 Current focus
               </Badge>
 
-              <h1 className="hero-title">
+              <h1 className={styles.heroTitle}>
                 Data Science student seeking a remote LIA internship
               </h1>
 
-              <p className="hero-text">
+              <p className={styles.heroText}>
                 I am a creative full-stack software developer and data science
                 student with a background in psychology, military service, key
                 account management, and customer support. I combine technical
@@ -54,11 +59,11 @@ function Home() {
 
       <HomePostsSection />
 
-      <section className="content-section">
+      <section className={styles.contentSection}>
         <Container>
           <Row className="g-4">
             <Col md={4}>
-              <div className="info-card">
+              <div className={styles.infoCard}>
                 <h2>About</h2>
                 <p>
                   A short introduction section will be added here using content
@@ -68,7 +73,7 @@ function Home() {
             </Col>
 
             <Col md={4}>
-              <div className="info-card">
+              <div className={styles.infoCard}>
                 <h2>Projects</h2>
                 <p>
                   Featured portfolio projects will be connected to Django and
@@ -78,7 +83,7 @@ function Home() {
             </Col>
 
             <Col md={4}>
-              <div className="info-card">
+              <div className={styles.infoCard}>
                 <h2>Contact info</h2>
                 <p>
                   Contact details and links will be added here. The full contact
