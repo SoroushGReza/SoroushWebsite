@@ -559,11 +559,33 @@ main {
   flex-direction: column;
 }
 
-.portfolio-project-card .card-text {
+.portfolio-project-description {
+  --description-lines: 6;
+
+  height: calc(1.75em * var(--description-lines));
+  margin-bottom: 0;
+  padding-right: 0.45rem;
+  overflow-y: auto;
   color: #cbd5e1;
   white-space: pre-line;
   font-size: 1.02rem;
   line-height: 1.75;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(13, 202, 240, 0.45) rgba(5, 8, 22, 0.75);
+}
+
+.portfolio-project-description::-webkit-scrollbar {
+  width: 6px;
+}
+
+.portfolio-project-description::-webkit-scrollbar-track {
+  background: rgba(5, 8, 22, 0.75);
+  border-radius: 999px;
+}
+
+.portfolio-project-description::-webkit-scrollbar-thumb {
+  background: rgba(13, 202, 240, 0.45);
+  border-radius: 999px;
 }
 
 .portfolio-tech-stack {

@@ -52,7 +52,9 @@ function PortfolioProjectCard({ project }) {
       )}
 
       <Card.Body className="portfolio-project-body">
-        <Card.Text>{project.description}</Card.Text>
+        <Card.Text className="portfolio-project-description">
+          {project.description}
+        </Card.Text>
 
         {hasTechStack && (
           <div className="portfolio-tech-stack">
