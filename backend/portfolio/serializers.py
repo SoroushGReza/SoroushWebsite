@@ -106,7 +106,10 @@ class PortfolioProjectSerializer(serializers.ModelSerializer):
     images = PortfolioProjectImageSerializer(many=True, read_only=True)
     contributors = ProjectContributorSerializer(many=True, read_only=True)
     tech_stack = TechStackSerializer(many=True, read_only=True)
-
+    project_type_label = serializers.CharField(
+        source="get_project_type_display",
+        read_only=True,
+    )
     tech_stack_ids = serializers.PrimaryKeyRelatedField(
         queryset=TechStack.objects.all(),
         source="tech_stack",
@@ -120,6 +123,8 @@ class PortfolioProjectSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
+            "project_type",
+            "project_type_label",
             "slug",
             "description",
             "images",

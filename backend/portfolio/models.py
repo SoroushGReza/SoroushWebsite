@@ -40,8 +40,19 @@ class TechStack(models.Model):
         return self.name
 
 
+class PortfolioProjectType(models.TextChoices):
+    HACKATHON = "hackathon", "Hackathon Project"
+    PORTFOLIO = "portfolio", "Portfolio Project"
+    FREELANCE = "freelance", "Freelance Project"
+
+
 class PortfolioProject(models.Model):
     name = models.CharField(max_length=180)
+    project_type = models.CharField(
+        max_length=20,
+        choices=PortfolioProjectType.choices,
+        default=PortfolioProjectType.PORTFOLIO,
+    )
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     description = models.TextField()
 

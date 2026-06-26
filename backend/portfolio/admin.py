@@ -42,12 +42,19 @@ class ProjectContributorInline(admin.TabularInline):
 class PortfolioProjectAdmin(admin.ModelAdmin):
     list_display = (
         "name",
+        "project_type",
         "is_featured",
         "is_published",
         "created_at",
         "updated_at",
     )
-    list_filter = ("is_featured", "is_published", "tech_stack", "created_at")
+    list_filter = (
+        "project_type",
+        "is_featured",
+        "is_published",
+        "tech_stack",
+        "created_at",
+    )
     search_fields = (
         "name",
         "description",
@@ -66,6 +73,7 @@ class PortfolioProjectAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "name",
+                    "project_type",
                     "slug",
                     "description",
                     "is_featured",
