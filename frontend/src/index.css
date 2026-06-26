@@ -629,12 +629,48 @@ main {
   font-weight: 600;
 }
 
-.portfolio-project-actions {
+.portfolio-card-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   margin-top: auto;
   padding-top: 1.5rem;
+}
+
+.portfolio-project-actions,
+.portfolio-admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.portfolio-card-button {
+  min-width: auto;
+  width: auto;
+  height: auto;
+  padding: 0.65rem 1rem;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 575.98px) {
+  .portfolio-card-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .portfolio-project-actions,
+  .portfolio-admin-actions {
+    width: 100%;
+  }
+
+  .portfolio-card-button {
+    flex: 1;
+  }
 }
 
 .portfolio-tech-checkboxes {
