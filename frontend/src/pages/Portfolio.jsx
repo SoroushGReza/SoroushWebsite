@@ -91,6 +91,8 @@ function Portfolio() {
       ...projectPayload
     } = formData;
 
+    projectPayload.display_order = Number(projectPayload.display_order) || 100;
+
     try {
       if (editingProject) {
         const updatedProject = await updatePortfolioProject(
