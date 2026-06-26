@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
+import styles from "./Posts.module.css";
 
 const emptyForm = {
   title: "",
@@ -121,7 +122,7 @@ function PostForm({
             />
 
             {isEditing && initialPost?.image_url && (
-              <p className="form-help-text mb-0">
+              <p className={`${styles.formHelpText} mb-0`}>
                 Current image will stay unless you upload a new one.
               </p>
             )}

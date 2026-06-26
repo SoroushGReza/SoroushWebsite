@@ -1,4 +1,5 @@
 import { Badge, Button, Card } from "react-bootstrap";
+import styles from "./Posts.module.css";
 
 function formatPostDate(dateValue) {
   if (!dateValue) {
@@ -14,13 +15,13 @@ function formatPostDate(dateValue) {
 
 function PostCard({ post, isAdmin = false, onEdit, onDelete }) {
   return (
-    <Card className="post-card">
+    <Card className={styles.postCard}>
       {post.image_url && (
         <Card.Img
           variant="top"
           src={post.image_url}
           alt={post.title}
-          className="post-image"
+          className={styles.postImage}
         />
       )}
 
@@ -36,7 +37,7 @@ function PostCard({ post, isAdmin = false, onEdit, onDelete }) {
             )}
           </div>
 
-          <span className="post-date">{formatPostDate(post.created_at)}</span>
+          <span className={styles.postDate}>{formatPostDate(post.created_at)}</span>
         </div>
 
         <Card.Text>{post.summary}</Card.Text>
