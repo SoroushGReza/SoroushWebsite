@@ -13,14 +13,29 @@ function getInitialFormData(project) {
     databases: project?.databases || "",
     is_featured: Boolean(project?.is_featured),
     is_published: project?.is_published ?? true,
+
     imageFiles: [],
-    contributors: [
-      {
-        name: "",
-        github_url: "",
-        role: "",
-      },
-    ],
+    existingImages: project?.images || [],
+    deletedImageIds: [],
+
+    contributors:
+      project?.contributors?.length > 0
+        ? project.contributors.map((contributor) => ({
+            id: contributor.id,
+            project: contributor.project,
+            name: contributor.name || "",
+            github_url: contributor.github_url || "",
+            role: contributor.role || "",
+            order: contributor.order || 0,
+          }))
+        : [
+            {
+              name: "",
+              github_url: "",
+              role: "",
+            },
+          ],
+    deletedContributorIds: [],
   };
 }
 
@@ -72,6 +87,16 @@ function PortfolioProjectForm({
     }));
   }
 
+  function handleRemoveExistingImage(imageId) {
+    setFormData((currentData) => ({
+      ...currentData,
+      existingImages: currentData.existingImages.filter(
+        (image) => image.id !== imageId,
+      ),
+      deletedImageIds: [...currentData.deletedImageIds, imageId],
+    }));
+  }
+
   function handleContributorChange(index, fieldName, value) {
     setFormData((currentData) => {
       const updatedContributors = currentData.contributors.map(
@@ -109,12 +134,30 @@ function PortfolioProjectForm({
   }
 
   function handleRemoveContributor(index) {
-    setFormData((currentData) => ({
-      ...currentData,
-      contributors: currentData.contributors.filter(
+    setFormData((currentData) => {
+      const contributorToRemove = currentData.contributors[index];
+
+      const updatedContributors = currentData.contributors.filter(
         (_contributor, contributorIndex) => contributorIndex !== index,
-      ),
-    }));
+      );
+
+      return {
+        ...currentData,
+        contributors:
+          updatedContributors.length > 0
+            ? updatedContributors
+            : [
+                {
+                  name: "",
+                  github_url: "",
+                  role: "",
+                },
+              ],
+        deletedContributorIds: contributorToRemove?.id
+          ? [...currentData.deletedContributorIds, contributorToRemove.id]
+          : currentData.deletedContributorIds,
+      };
+    });
   }
 
   async function handleSubmit(event) {
@@ -248,132 +291,148 @@ function PortfolioProjectForm({
               </div>
             </Col>
 
-            {!isEditing && (
-              <>
-                <Col xs={12}>
-                  <Form.Group controlId="portfolio-project-images">
-                    <Form.Label>Project images</Form.Label>
-                    <Form.Control
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={handleImageChange}
-                    />
-                    <Form.Text>
-                      You can select one or multiple images. They will be
-                      uploaded after the project is created.
-                    </Form.Text>
-                  </Form.Group>
-
-                  {formData.imageFiles.length > 0 && (
-                    <div className="portfolio-selected-files">
-                      {formData.imageFiles.map((file) => (
-                        <span key={`${file.name}-${file.size}`}>
-                          {file.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </Col>
-
-                <Col xs={12}>
-                  <div className="portfolio-contributor-form-section">
-                    <div className="portfolio-form-section-header">
-                      <div>
-                        <Form.Label className="mb-1">Contributors</Form.Label>
-                        <p className="mb-0">
-                          Add people who worked on this project.
-                        </p>
-                      </div>
-
-                      <Button
-                        type="button"
-                        variant="outline-info"
-                        onClick={handleAddContributor}
-                      >
-                        Add contributor
-                      </Button>
-                    </div>
-
-                    {formData.contributors.map((contributor, index) => (
+            <>
+              <Col xs={12}>
+                {formData.existingImages.length > 0 && (
+                  <div className="portfolio-existing-images">
+                    {formData.existingImages.map((image) => (
                       <div
-                        className="portfolio-contributor-form-row"
-                        key={`contributor-${index}`}
+                        className="portfolio-existing-image-item"
+                        key={image.id}
                       >
-                        <Row className="g-3">
-                          <Col md={4}>
-                            <Form.Group controlId={`contributor-name-${index}`}>
-                              <Form.Label>Name</Form.Label>
-                              <Form.Control
-                                type="text"
-                                value={contributor.name}
-                                onChange={(event) =>
-                                  handleContributorChange(
-                                    index,
-                                    "name",
-                                    event.target.value,
-                                  )
-                                }
-                                placeholder="Contributor name"
-                              />
-                            </Form.Group>
-                          </Col>
+                        <img
+                          src={image.image_url}
+                          alt={image.alt_text || formData.name}
+                        />
 
-                          <Col md={4}>
-                            <Form.Group
-                              controlId={`contributor-github-${index}`}
-                            >
-                              <Form.Label>GitHub URL</Form.Label>
-                              <Form.Control
-                                type="url"
-                                value={contributor.github_url}
-                                onChange={(event) =>
-                                  handleContributorChange(
-                                    index,
-                                    "github_url",
-                                    event.target.value,
-                                  )
-                                }
-                                placeholder="https://github.com/..."
-                              />
-                            </Form.Group>
-                          </Col>
-
-                          <Col md={3}>
-                            <Form.Group controlId={`contributor-role-${index}`}>
-                              <Form.Label>Role</Form.Label>
-                              <Form.Control
-                                type="text"
-                                value={contributor.role}
-                                onChange={(event) =>
-                                  handleContributorChange(
-                                    index,
-                                    "role",
-                                    event.target.value,
-                                  )
-                                }
-                                placeholder="Frontend, Backend..."
-                              />
-                            </Form.Group>
-                          </Col>
-
-                          <Col md={1} className="d-flex align-items-end">
-                            <Button
-                              type="button"
-                              variant="outline-danger"
-                              onClick={() => handleRemoveContributor(index)}
-                              disabled={formData.contributors.length === 1}
-                            >
-                              X
-                            </Button>
-                          </Col>
-                        </Row>
+                        <Button
+                          type="button"
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => handleRemoveExistingImage(image.id)}
+                        >
+                          Remove
+                        </Button>
                       </div>
                     ))}
                   </div>
-                </Col>
-              </>
-            )}
+                )}
+                <Form.Group controlId="portfolio-project-images">
+                  <Form.Label>Project images</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageChange}
+                  />
+                  <Form.Text>
+                    Select one or multiple new images to add to this project.
+                  </Form.Text>
+                </Form.Group>
+
+                {formData.imageFiles.length > 0 && (
+                  <div className="portfolio-selected-files">
+                    {formData.imageFiles.map((file) => (
+                      <span key={`${file.name}-${file.size}`}>{file.name}</span>
+                    ))}
+                  </div>
+                )}
+              </Col>
+
+              <Col xs={12}>
+                <div className="portfolio-contributor-form-section">
+                  <div className="portfolio-form-section-header">
+                    <div>
+                      <Form.Label className="mb-1">Contributors</Form.Label>
+                      <p className="mb-0">
+                        Add people who worked on this project.
+                      </p>
+                    </div>
+
+                    <Button
+                      type="button"
+                      variant="outline-info"
+                      onClick={handleAddContributor}
+                    >
+                      Add contributor
+                    </Button>
+                  </div>
+
+                  {formData.contributors.map((contributor, index) => (
+                    <div
+                      className="portfolio-contributor-form-row"
+                      key={`contributor-${index}`}
+                    >
+                      <Row className="g-3">
+                        <Col md={4}>
+                          <Form.Group controlId={`contributor-name-${index}`}>
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={contributor.name}
+                              onChange={(event) =>
+                                handleContributorChange(
+                                  index,
+                                  "name",
+                                  event.target.value,
+                                )
+                              }
+                              placeholder="Contributor name"
+                            />
+                          </Form.Group>
+                        </Col>
+
+                        <Col md={4}>
+                          <Form.Group controlId={`contributor-github-${index}`}>
+                            <Form.Label>GitHub URL</Form.Label>
+                            <Form.Control
+                              type="url"
+                              value={contributor.github_url}
+                              onChange={(event) =>
+                                handleContributorChange(
+                                  index,
+                                  "github_url",
+                                  event.target.value,
+                                )
+                              }
+                              placeholder="https://github.com/..."
+                            />
+                          </Form.Group>
+                        </Col>
+
+                        <Col md={3}>
+                          <Form.Group controlId={`contributor-role-${index}`}>
+                            <Form.Label>Role</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={contributor.role}
+                              onChange={(event) =>
+                                handleContributorChange(
+                                  index,
+                                  "role",
+                                  event.target.value,
+                                )
+                              }
+                              placeholder="Frontend, Backend..."
+                            />
+                          </Form.Group>
+                        </Col>
+
+                        <Col md={1} className="d-flex align-items-end">
+                          <Button
+                            type="button"
+                            variant="outline-danger"
+                            onClick={() => handleRemoveContributor(index)}
+                          >
+                            X
+                          </Button>
+                        </Col>
+                      </Row>
+                    </div>
+                  ))}
+                </div>
+              </Col>
+            </>
 
             <Col md={6}>
               <Form.Check
