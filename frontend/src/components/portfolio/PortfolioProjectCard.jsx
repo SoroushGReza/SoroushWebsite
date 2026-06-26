@@ -14,7 +14,9 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
     <Card className="portfolio-project-card">
       <div className="portfolio-project-top">
         <div>
-          <p className="card-label mb-2">Portfolio project</p>
+          <p className="card-label mb-2">
+            {project.project_type_label || "Portfolio Project"}
+          </p>
           <Card.Title className="portfolio-project-title">
             {project.name}
           </Card.Title>
