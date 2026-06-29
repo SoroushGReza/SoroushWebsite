@@ -1,5 +1,6 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
+import styles from "../components/cv/CV.module.css";
 
 import AnimatedHero from "../components/home/AnimatedHero";
 import CVDocumentCard from "../components/cv/CVDocumentCard";
@@ -104,7 +105,7 @@ function CV() {
 
       <section className="page-section">
         <Container>
-          <div className="section-header cv-page-heading">
+          <div className={`section-header ${styles.pageHeading}`}>
             <div>
               <p className="card-label">Documents</p>
               <h1>CV</h1>

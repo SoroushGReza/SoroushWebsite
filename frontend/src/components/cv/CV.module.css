@@ -1,0 +1,98 @@
+.documentCard {
+  height: 100%;
+  overflow: hidden;
+  background: rgba(5, 5, 8, 0.82);
+  border: 1px solid rgba(168, 85, 247, 0.24);
+  border-radius: 1.15rem;
+  color: #f8fafc;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}
+
+.documentHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.documentTitle {
+  margin: 0;
+  color: #c084fc;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 20px rgba(192, 132, 252, 0.24);
+}
+
+.documentDescription {
+  height: calc(1.75em * 5);
+  margin-top: 1rem;
+  margin-bottom: 0;
+  padding-right: 0.45rem;
+  overflow-y: auto;
+  color: #cbd5e1;
+  white-space: pre-line;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(192, 132, 252, 0.45) rgba(5, 8, 22, 0.75);
+}
+
+.documentDescription::-webkit-scrollbar {
+  width: 6px;
+}
+
+.documentDescription::-webkit-scrollbar-track {
+  background: rgba(5, 8, 22, 0.75);
+  border-radius: 999px;
+}
+
+.documentDescription::-webkit-scrollbar-thumb {
+  background: rgba(192, 132, 252, 0.45);
+  border-radius: 999px;
+}
+
+.documentMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.documentMeta span {
+  padding: 0.35rem 0.65rem;
+  background: rgba(5, 8, 22, 0.75);
+  border: 1px solid rgba(168, 85, 247, 0.18);
+  border-radius: 999px;
+}
+
+.documentActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.documentActions :global(.btn) {
+  width: auto;
+  min-width: auto;
+}
+
+.pageHeading {
+  display: flex;
+}
+
+@media (min-width: 992px) {
+  .pageHeading {
+    display: none;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .pageHeading {
+    display: flex;
+  }
+}

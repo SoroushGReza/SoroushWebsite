@@ -1,4 +1,5 @@
 import { Badge, Button, Card } from "react-bootstrap";
+import styles from "./CV.module.css";
 
 function formatFileSize(bytes) {
   if (!bytes) {
@@ -12,12 +13,14 @@ function formatFileSize(bytes) {
 
 function CVDocumentCard({ cvDocument, isAdmin = false, onEdit, onDelete }) {
   return (
-    <Card className="cv-document-card">
+    <Card className={styles.documentCard}>
       <Card.Body>
-        <div className="cv-document-header">
+        <div className={styles.documentHeader}>
           <div>
             <p className="card-label mb-2">PDF CV</p>
-            <Card.Title>{cvDocument.title}</Card.Title>
+            <Card.Title className={styles.documentTitle}>
+              {cvDocument.title}
+            </Card.Title>
           </div>
 
           {isAdmin && !cvDocument.is_published && (
@@ -26,19 +29,19 @@ function CVDocumentCard({ cvDocument, isAdmin = false, onEdit, onDelete }) {
         </div>
 
         {cvDocument.description && (
-          <Card.Text className="cv-document-description">
+          <Card.Text className={styles.documentDescription}>
             {cvDocument.description}
           </Card.Text>
         )}
 
-        <div className="cv-document-meta">
+        <div className={styles.documentMeta}>
           {cvDocument.file_name && <span>{cvDocument.file_name}</span>}
           {cvDocument.file_size > 0 && (
             <span>{formatFileSize(cvDocument.file_size)}</span>
           )}
         </div>
 
-        <div className="cv-document-actions">
+        <div className={styles.documentActions}>
           <Button
             href={cvDocument.file_url}
             target="_blank"
