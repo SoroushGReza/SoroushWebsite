@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
 import styles from "../../styles/Portfolio.module.css";
+import adminStyles from "../../styles/Admin.module.css";
 
 function getInitialFormData(project) {
   return {
@@ -175,7 +176,7 @@ function PortfolioProjectForm({
   }
 
   return (
-    <Card className="admin-panel-card mb-4">
+    <Card className={`${adminStyles.panelCard} mb-4`}>
       <Card.Body>
         <h2>
           {isEditing ? "Update portfolio project" : "Create portfolio project"}
@@ -493,7 +494,7 @@ function PortfolioProjectForm({
             </Col>
           </Row>
 
-          <div className="admin-post-actions">
+          <div className={adminStyles.actions}>
             <Button type="submit" variant="info" disabled={isSubmitting}>
               {isSubmitting
                 ? "Saving..."

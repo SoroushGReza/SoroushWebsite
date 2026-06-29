@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
+import adminStyles from "../../styles/Admin.module.css";
 
 function getInitialFormData(cvDocument) {
   return {
@@ -75,7 +76,7 @@ function CVDocumentForm({
   }
 
   return (
-    <Card className="admin-panel-card mb-4">
+    <Card className={`${adminStyles.panelCard} mb-4`}>
       <Card.Body>
         <h2>{isEditing ? "Update CV document" : "Upload new CV"}</h2>
 
@@ -156,7 +157,7 @@ function CVDocumentForm({
             </Col>
           </Row>
 
-          <div className="admin-post-actions">
+          <div className={adminStyles.actions}>
             <Button type="submit" variant="info" disabled={isSubmitting}>
               {isSubmitting
                 ? "Saving..."

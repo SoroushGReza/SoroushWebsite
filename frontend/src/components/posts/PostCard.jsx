@@ -1,5 +1,6 @@
 import { Badge, Button, Card } from "react-bootstrap";
 import styles from "../../styles/Posts.module.css";
+import adminStyles from "../../styles/Admin.module.css";
 
 function formatPostDate(dateValue) {
   if (!dateValue) {
@@ -56,7 +57,7 @@ function PostCard({ post, isAdmin = false, onEdit, onDelete }) {
         )}
 
         {isAdmin && (
-          <div className="admin-post-actions">
+          <div className={adminStyles.actions}>
             <Button
               type="button"
               variant="outline-light"

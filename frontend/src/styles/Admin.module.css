@@ -1,0 +1,39 @@
+.panelCard {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(13, 202, 240, 0.22);
+  border-radius: 1.5rem;
+  color: #f8fafc;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}
+
+.panelCard h2 {
+  color: #f8fafc;
+  font-weight: 800;
+}
+
+.panelCard :global(.form-label),
+.panelCard :global(.form-check-label) {
+  color: #cbd5e1;
+}
+
+.panelCard :global(.form-control) {
+  color: #f8fafc;
+  background: rgba(5, 8, 22, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.panelCard :global(.form-control):focus {
+  background: rgba(5, 8, 22, 0.96);
+  color: #f8fafc;
+  border-color: #0dcaf0;
+  box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.15);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
 import styles from "../../styles/Posts.module.css";
+import adminStyles from "../../styles/Admin.module.css";
 
 const emptyForm = {
   title: "",
@@ -82,7 +83,7 @@ function PostForm({
   }
 
   return (
-    <Card className="admin-panel-card">
+    <Card className={adminStyles.panelCard}>
       <Card.Body>
         <p className="card-label">{isEditing ? "Edit post" : "New post"}</p>
 
