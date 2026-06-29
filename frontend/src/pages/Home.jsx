@@ -1,7 +1,6 @@
-import { Badge, Button, Col, Container, Row } from "react-bootstrap";
-import { Link } from "react-router";
-
+import { Col, Container, Row } from "react-bootstrap";
 import AnimatedHero from "../components/home/AnimatedHero";
+import HomeHero from "../components/home/HomeHero";
 import HomePostsSection from "../components/home/HomePostsSection";
 import styles from "../styles/Home.module.css";
 
@@ -14,48 +13,7 @@ function Home() {
         theme="gold"
       />
 
-      <section className={styles.heroSection}>
-        <Container>
-          <Row className="align-items-center g-5">
-            <Col lg={7}>
-              <Badge
-                bg="info"
-                text="dark"
-                className={`mb-3 ${styles.techBadge}`}
-              >
-                Current focus
-              </Badge>
-
-              <h1 className={styles.heroTitle}>
-                Data Science student seeking a remote LIA internship
-              </h1>
-
-              <p className={styles.heroText}>
-                I am a creative full-stack software developer and data science
-                student with a background in psychology, military service, key
-                account management, and customer support. I combine technical
-                problem-solving with people-focused experience to build
-                thoughtful, useful, and data-driven digital solutions.
-              </p>
-
-              <div className="d-flex flex-wrap gap-3">
-                <Button as={Link} to="/portfolio" variant="info" size="lg">
-                  View Portfolio
-                </Button>
-
-                <Button
-                  as={Link}
-                  to="/contact"
-                  variant="outline-light"
-                  size="lg"
-                >
-                  Contact Me
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+      <HomeHero />
 
       <HomePostsSection />
 
