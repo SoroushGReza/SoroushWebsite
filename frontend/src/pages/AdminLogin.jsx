@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Alert, Button, Card, Container, Form, Spinner } from "react-bootstrap";
+import styles from "../styles/AdminLogin.module.css";
 import { useNavigate } from "react-router";
-
 import { useAuth } from "../context/AuthContext";
 
 function AdminLogin() {
@@ -44,8 +44,8 @@ function AdminLogin() {
   }
 
   return (
-    <Container className="admin-login-section">
-      <Card className="admin-login-card">
+    <Container className={styles.loginSection}>
+      <Card className={styles.loginCard}>
         <Card.Body>
           <p className="card-label">Admin access</p>
           <h1 className="mb-3">Admin Login</h1>

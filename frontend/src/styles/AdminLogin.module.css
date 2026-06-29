@@ -1,0 +1,33 @@
+.loginSection {
+  min-height: calc(100vh - 180px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.loginCard {
+  width: min(100%, 440px);
+  background: rgba(15, 23, 42, 0.82);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 1.5rem;
+  color: #f8fafc;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}
+
+.loginCard :global(.form-label) {
+  color: #cbd5e1;
+}
+
+.loginCard :global(.form-control) {
+  color: #f8fafc;
+  background: rgba(5, 8, 22, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.loginCard :global(.form-control):focus {
+  background: rgba(5, 8, 22, 0.95);
+  color: #f8fafc;
+  border-color: #0dcaf0;
+  box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.15);
+}
