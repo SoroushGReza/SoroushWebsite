@@ -4,6 +4,7 @@ import AnimatedHero from "../components/home/AnimatedHero";
 import PortfolioProjectCard from "../components/portfolio/PortfolioProjectCard";
 import PortfolioProjectForm from "../components/portfolio/PortfolioProjectForm";
 import { useAuth } from "../context/AuthContext";
+import styles from "../components/portfolio/Portfolio.module.css";
 import {
   createPortfolioProject,
   createPortfolioProjectImage,
@@ -205,7 +206,7 @@ function Portfolio() {
 
       <section className="page-section">
         <Container>
-          <div className="section-header portfolio-page-heading">
+          <div className={`section-header ${styles.pageHeading}`}>
             <div>
               <p className="card-label">Selected work</p>
               <h1>Portfolio</h1>

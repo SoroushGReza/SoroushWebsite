@@ -1,4 +1,5 @@
 import { Badge, Button, Card, Carousel } from "react-bootstrap";
+import styles from "./Portfolio.module.css";
 
 function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
   const hasImages = project.images && project.images.length > 0;
@@ -11,26 +12,26 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
   const hasTechStack = hasSelectedTechStack || project.custom_tech_stack;
 
   return (
-    <Card className="portfolio-project-card">
-      <div className="portfolio-project-top">
+    <Card className={styles.projectCard}>
+      <div className={styles.projectTop}>
         <div>
           <p className="card-label mb-2">
             {project.project_type_label || "Portfolio Project"}
           </p>
-          <Card.Title className="portfolio-project-title">
+          <Card.Title className={styles.projectTitle}>
             {project.name}
           </Card.Title>
         </div>
 
         {project.is_featured && (
-          <Badge bg="warning" text="dark" className="portfolio-featured-badge">
+          <Badge bg="warning" text="dark" className={styles.featuredBadge}>
             Featured
           </Badge>
         )}
       </div>
 
       {hasImages && (
-        <div className="portfolio-project-media">
+        <div className={styles.projectMedia}>
           {hasMultipleImages ? (
             <Carousel interval={null}>
               {project.images.map((image) => (
@@ -38,7 +39,7 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
                   <img
                     src={image.image_url}
                     alt={image.alt_text || project.name}
-                    className="portfolio-project-image"
+                    className={styles.projectImage}
                   />
                 </Carousel.Item>
               ))}
@@ -47,35 +48,35 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
             <img
               src={project.images[0].image_url}
               alt={project.images[0].alt_text || project.name}
-              className="portfolio-project-image"
+              className={styles.projectImage}
             />
           )}
         </div>
       )}
 
-      <Card.Body className="portfolio-project-body">
-        <Card.Text className="portfolio-project-description">
+      <Card.Body className={styles.projectBody}>
+        <Card.Text className={styles.projectDescription}>
           {project.description}
         </Card.Text>
 
         {hasTechStack && (
-          <div className="portfolio-tech-stack">
+          <div className={styles.techStack}>
             {hasSelectedTechStack &&
               project.tech_stack.map((tech) => (
-                <Badge key={tech.id} bg="dark" className="portfolio-tech-badge">
+                <Badge key={tech.id} bg="dark" className={styles.techBadge}>
                   {tech.name}
                 </Badge>
               ))}
 
             {project.custom_tech_stack && (
-              <Badge bg="secondary" className="portfolio-tech-badge">
+              <Badge bg="secondary" className={styles.techBadge}>
                 {project.custom_tech_stack}
               </Badge>
             )}
           </div>
         )}
 
-        <div className="portfolio-project-meta">
+        <div className={styles.projectMeta}>
           {project.deployment && (
             <p>
               <strong>Deployment:</strong> {project.deployment}
@@ -90,10 +91,10 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
         </div>
 
         {hasContributors && (
-          <div className="portfolio-contributors">
+          <div className={styles.contributors}>
             <strong>Contributors:</strong>
 
-            <div className="portfolio-contributor-list">
+            <div className={styles.contributorList}>
               {project.contributors.map((contributor) =>
                 contributor.github_url ? (
                   <a
@@ -113,15 +114,15 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
         )}
 
         {(hasLinks || isAdmin) && (
-          <div className="portfolio-card-actions">
-            <div className="portfolio-project-actions">
+          <div className={styles.cardActions}>
+            <div className={styles.projectActions}>
               {project.live_website_url && (
                 <Button
                   href={project.live_website_url}
                   target="_blank"
                   rel="noreferrer"
                   variant="info"
-                  className="portfolio-card-button"
+                  className={styles.cardButton}
                 >
                   Live Website
                 </Button>
@@ -133,7 +134,7 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
                   target="_blank"
                   rel="noreferrer"
                   variant="outline-light"
-                  className="portfolio-card-button"
+                  className={styles.cardButton}
                 >
                   GitHub
                 </Button>
@@ -141,11 +142,11 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
             </div>
 
             {isAdmin && (
-              <div className="portfolio-admin-actions">
+              <div className={styles.adminActions}>
                 <Button
                   type="button"
                   variant="outline-info"
-                  className="portfolio-card-button"
+                  className={styles.cardButton}
                   onClick={() => onEdit(project)}
                 >
                   Edit
@@ -154,7 +155,7 @@ function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
                 <Button
                   type="button"
                   variant="outline-danger"
-                  className="portfolio-card-button"
+                  className={styles.cardButton}
                   onClick={() => onDelete(project)}
                 >
                   Delete

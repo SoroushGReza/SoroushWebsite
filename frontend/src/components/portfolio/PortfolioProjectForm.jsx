@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
+import styles from "./Portfolio.module.css";
 
 function getInitialFormData(project) {
   return {
@@ -312,7 +313,7 @@ function PortfolioProjectForm({
             <Col xs={12}>
               <Form.Label>Tech stack</Form.Label>
 
-              <div className="portfolio-tech-checkboxes">
+              <div className={styles.techCheckboxes}>
                 {techStackOptions.map((tech) => (
                   <Form.Check
                     key={tech.id}
@@ -329,10 +330,10 @@ function PortfolioProjectForm({
             <>
               <Col xs={12}>
                 {formData.existingImages.length > 0 && (
-                  <div className="portfolio-existing-images">
+                  <div className={styles.existingImages}>
                     {formData.existingImages.map((image) => (
                       <div
-                        className="portfolio-existing-image-item"
+                        className={styles.existingImageItem}
                         key={image.id}
                       >
                         <img
@@ -366,7 +367,7 @@ function PortfolioProjectForm({
                 </Form.Group>
 
                 {formData.imageFiles.length > 0 && (
-                  <div className="portfolio-selected-files">
+                  <div className={styles.selectedFiles}>
                     {formData.imageFiles.map((file) => (
                       <span key={`${file.name}-${file.size}`}>{file.name}</span>
                     ))}
@@ -375,8 +376,8 @@ function PortfolioProjectForm({
               </Col>
 
               <Col xs={12}>
-                <div className="portfolio-contributor-form-section">
-                  <div className="portfolio-form-section-header">
+                <div className={styles.contributorFormSection}>
+                  <div className={styles.formSectionHeader}>
                     <div>
                       <Form.Label className="mb-1">Contributors</Form.Label>
                       <p className="mb-0">
@@ -395,7 +396,7 @@ function PortfolioProjectForm({
 
                   {formData.contributors.map((contributor, index) => (
                     <div
-                      className="portfolio-contributor-form-row"
+                      className={styles.contributorFormRow}
                       key={`contributor-${index}`}
                     >
                       <Row className="g-3">

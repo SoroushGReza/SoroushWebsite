@@ -1,0 +1,279 @@
+.projectCard {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: rgba(5, 5, 8, 0.82);
+  border: 1px solid rgba(13, 202, 240, 0.22);
+  border-radius: 1.15rem;
+  color: #f8fafc;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}
+
+.projectTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 1.4rem 1rem;
+  border-bottom: 1px solid rgba(13, 202, 240, 0.14);
+}
+
+.projectTitle {
+  margin: 0;
+  color: #0dcaf0;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 20px rgba(13, 202, 240, 0.24);
+}
+
+.featuredBadge {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.projectMedia {
+  background: rgba(5, 8, 22, 0.75);
+  border-bottom: 1px solid rgba(13, 202, 240, 0.16);
+}
+
+.projectMedia :global(.carousel-item) {
+  background: rgba(5, 8, 22, 0.75);
+}
+
+.projectImage {
+  width: 100%;
+  height: clamp(240px, 24vw, 360px);
+  object-fit: contain;
+  background: rgba(5, 8, 22, 0.75);
+}
+
+.projectBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.projectDescription {
+  --description-lines: 6;
+
+  height: calc(1.75em * var(--description-lines));
+  margin-bottom: 0;
+  padding-right: 0.45rem;
+  overflow-y: auto;
+  color: #cbd5e1;
+  white-space: pre-line;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(13, 202, 240, 0.45) rgba(5, 8, 22, 0.75);
+}
+
+.projectDescription::-webkit-scrollbar {
+  width: 6px;
+}
+
+.projectDescription::-webkit-scrollbar-track {
+  background: rgba(5, 8, 22, 0.75);
+  border-radius: 999px;
+}
+
+.projectDescription::-webkit-scrollbar-thumb {
+  background: rgba(13, 202, 240, 0.45);
+  border-radius: 999px;
+}
+
+.techStack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+.techBadge {
+  border: 1px solid rgba(13, 202, 240, 0.22);
+  font-weight: 600;
+}
+
+.projectMeta {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  color: #cbd5e1;
+}
+
+.projectMeta p {
+  margin: 0;
+}
+
+.contributors {
+  margin-top: 1rem;
+  color: #cbd5e1;
+}
+
+.contributorList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.contributorList a,
+.contributorList span {
+  color: #67e8f9;
+  font-weight: 600;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.projectActions,
+.adminActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cardButton {
+  min-width: auto;
+  width: auto;
+  height: auto;
+  padding: 0.65rem 1rem;
+  line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.techCheckboxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.5rem 1rem;
+  padding: 1rem;
+  background: rgba(5, 8, 22, 0.65);
+  border: 1px solid rgba(13, 202, 240, 0.18);
+  border-radius: 1rem;
+}
+
+.techCheckboxes :global(.form-check-label) {
+  color: #cbd5e1;
+}
+
+.selectedFiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.selectedFiles span {
+  padding: 0.4rem 0.7rem;
+  color: #67e8f9;
+  background: rgba(5, 8, 22, 0.75);
+  border: 1px solid rgba(13, 202, 240, 0.2);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.contributorFormSection {
+  padding: 1rem;
+  background: rgba(5, 8, 22, 0.65);
+  border: 1px solid rgba(13, 202, 240, 0.18);
+  border-radius: 1rem;
+}
+
+.formSectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.formSectionHeader p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.contributorFormRow {
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.42);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 0.85rem;
+}
+
+.contributorFormRow + .contributorFormRow {
+  margin-top: 1rem;
+}
+
+.existingImages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.existingImageItem {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  background: rgba(5, 8, 22, 0.65);
+  border: 1px solid rgba(13, 202, 240, 0.18);
+  border-radius: 0.85rem;
+}
+
+.existingImageItem img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  background: rgba(5, 8, 22, 0.75);
+  border-radius: 0.65rem;
+}
+
+.pageHeading {
+  display: flex;
+}
+
+@media (max-width: 575.98px) {
+  .cardActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .projectActions,
+  .adminActions {
+    width: 100%;
+  }
+
+  .cardButton {
+    flex: 1;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .formSectionHeader {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 992px) {
+  .pageHeading {
+    display: none;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .pageHeading {
+    display: flex;
+  }
+}
