@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 import AnimatedHero from "../components/home/AnimatedHero";
 import HomePostsSection from "../components/home/HomePostsSection";
-import styles from "./Home.module.css";
+import styles from "../styles/Home.module.css";
 
 function Home() {
   return (

@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
-import styles from "../components/cv/CV.module.css";
+import styles from "../styles/CV.module.css";
 
 import AnimatedHero from "../components/home/AnimatedHero";
 import CVDocumentCard from "../components/cv/CVDocumentCard";

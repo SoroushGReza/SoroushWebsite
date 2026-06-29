@@ -1,5 +1,5 @@
 import { Badge, Button, Card, Carousel } from "react-bootstrap";
-import styles from "./Portfolio.module.css";
+import styles from "../../styles/Portfolio.module.css";
 
 function PortfolioProjectCard({ project, isAdmin = false, onEdit, onDelete }) {
   const hasImages = project.images && project.images.length > 0;

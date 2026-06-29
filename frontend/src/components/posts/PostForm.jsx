@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Form } from "react-bootstrap";
-import styles from "./Posts.module.css";
+import styles from "../../styles/Posts.module.css";
 
 const emptyForm = {
   title: "",

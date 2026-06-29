@@ -1,5 +1,5 @@
 import { Badge, Button, Card } from "react-bootstrap";
-import styles from "./CV.module.css";
+import styles from "../../styles/CV.module.css";
 
 function formatFileSize(bytes) {
   if (!bytes) {

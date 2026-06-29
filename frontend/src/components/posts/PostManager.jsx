@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Row, Spinner } from "react-bootstrap";
-import styles from "./Posts.module.css";
+import styles from "../../styles/Posts.module.css";
 
 import { useAuth } from "../../context/AuthContext";
 import PostCard from "./PostCard";

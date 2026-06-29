@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import styles from "./AnimatedHero.module.css";
+import styles from "../../styles/AnimatedHero.module.css";
 
 const HERO_THEMES = {
   gold: {

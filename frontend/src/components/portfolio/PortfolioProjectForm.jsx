@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
-import styles from "./Portfolio.module.css";
+import styles from "../../styles/Portfolio.module.css";
 
 function getInitialFormData(project) {
   return {

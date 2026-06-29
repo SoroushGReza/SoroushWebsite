@@ -1,5 +1,5 @@
 import { Badge, Button, Card } from "react-bootstrap";
-import styles from "./Posts.module.css";
+import styles from "../../styles/Posts.module.css";
 
 function formatPostDate(dateValue) {
   if (!dateValue) {

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "./SiteHeader.module.css";
+import styles from "../styles/SiteHeader.module.css";
 import {
   faRightFromBracket,
   faUserShield,
