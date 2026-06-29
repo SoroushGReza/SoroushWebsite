@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styles from "../styles/SiteHeader.module.css";
+import styles from "../../styles/SiteHeader.module.css";
 import {
   faRightFromBracket,
   faUserShield,
@@ -7,7 +7,7 @@ import {
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const navItems = [
   {

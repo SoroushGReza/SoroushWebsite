@@ -91,17 +91,6 @@ main {
   border-radius: 1.5rem;
 }
 
-.site-footer {
-  padding: 2rem 0;
-  background: rgba(0, 0, 0, 0.96);
-  border-top: 1px solid rgba(148, 163, 184, 0.18);
-  text-align: center;
-}
-
-.footer-muted {
-  color: #94a3b8;
-}
-
 @media (max-width: 768px) {
   .section-header {
     align-items: flex-start;

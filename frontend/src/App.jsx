@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 
-import SiteFooter from "./components/SiteFooter";
-import SiteHeader from "./components/SiteHeader";
+import SiteFooter from "./components/layout/SiteFooter";
+import SiteHeader from "./components/layout/SiteHeader";
 
 import AdminLogin from "./pages/AdminLogin";
 import Contact from "./pages/Contact";
