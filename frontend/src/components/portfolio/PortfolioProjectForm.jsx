@@ -83,7 +83,12 @@ function PortfolioProjectForm({
   }
 
   function handleImageChange(event) {
-    const files = Array.from(event.target.files);
+    const files = Array.from(event.target.files).sort((firstFile, secondFile) =>
+      firstFile.name.localeCompare(secondFile.name, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      }),
+    );
 
     setFormData((currentData) => ({
       ...currentData,
@@ -202,7 +207,7 @@ function PortfolioProjectForm({
                 </Form.Text>
               </Form.Group>
             </Col>
-            
+
             <Col md={6}>
               <Form.Group controlId="portfolio-project-name">
                 <Form.Label>Project name</Form.Label>
@@ -333,10 +338,7 @@ function PortfolioProjectForm({
                 {formData.existingImages.length > 0 && (
                   <div className={styles.existingImages}>
                     {formData.existingImages.map((image) => (
-                      <div
-                        className={styles.existingImageItem}
-                        key={image.id}
-                      >
+                      <div className={styles.existingImageItem} key={image.id}>
                         <img
                           src={image.image_url}
                           alt={image.alt_text || formData.name}
