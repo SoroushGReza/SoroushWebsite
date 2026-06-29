@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styles from "./SiteHeader.module.css";
 import {
   faRightFromBracket,
   faUserShield,
@@ -55,22 +56,23 @@ function SiteHeader() {
   }
 
   return (
-    <Navbar expand="lg" className="site-navbar" variant="dark">
+    <Navbar expand="lg" className={styles.navbar} variant="dark">
       <Container>
-        <Navbar.Brand as={NavLink} to="/" className="brand-logo">
+        <Navbar.Brand as={NavLink} to="/" className={styles.brandLogo}>
           Soroush Gholamreza
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-navigation" />
 
         <Navbar.Collapse id="main-navigation">
-          <Nav className="ms-auto nav-links">
+          <Nav className={`ms-auto ${styles.navLinks}`}>
             {navItems.map((item) => (
               <Nav.Link
                 key={item.to}
                 as={NavLink}
                 to={item.to}
                 end={item.end}
+                className={styles.navLink}
                 style={{ "--nav-accent": item.accent }}
               >
                 {item.label}
@@ -81,7 +83,7 @@ function SiteHeader() {
               <Button
                 type="button"
                 variant="link"
-                className="admin-nav-icon admin-nav-button"
+                className={`${styles.adminNavIcon} ${styles.adminNavButton}`}
                 onClick={handleLogout}
                 aria-label="Admin logout"
                 title="Admin logout"
@@ -92,7 +94,7 @@ function SiteHeader() {
               <Nav.Link
                 as={NavLink}
                 to="/admin-login"
-                className="admin-nav-icon"
+                className={styles.adminNavIcon}
                 aria-label="Admin login"
                 title="Admin"
               >

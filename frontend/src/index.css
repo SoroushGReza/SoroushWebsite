@@ -46,31 +46,6 @@ main {
   background: transparent;
 }
 
-.site-navbar {
-  background: rgba(5, 8, 22, 0.9);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  backdrop-filter: blur(16px);
-}
-
-.brand-logo {
-  font-weight: 800;
-  letter-spacing: 0.04em;
-}
-
-.nav-links .nav-link {
-  color: rgba(248, 250, 252, 0.78);
-  font-weight: 500;
-  transition:
-    color 0.2s ease,
-    text-shadow 0.2s ease;
-}
-
-.nav-links .nav-link:hover,
-.nav-links .nav-link.active {
-  color: var(--nav-accent);
-  text-shadow: 0 0 14px color-mix(in srgb, var(--nav-accent) 55%, transparent);
-}
-
 .page-section {
   padding: 4rem 0;
   background: transparent;
@@ -135,30 +110,6 @@ main {
 }
 
 /* ------------------------- Admin ------------------------- */
-
-.admin-nav-icon {
-  color: rgba(248, 250, 252, 0.18) !important;
-  font-size: 0.72rem;
-  opacity: 0.4;
-  padding-left: 0.75rem !important;
-  padding-right: 0.25rem !important;
-  transition:
-    color 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.admin-nav-icon:hover,
-.admin-nav-icon.active {
-  color: rgba(13, 202, 240, 0.7) !important;
-  opacity: 0.75;
-}
-
-.admin-nav-button {
-  border: 0;
-  text-decoration: none;
-  line-height: 1;
-  margin-top: 0.45rem;
-}
 
 .admin-login-section {
   min-height: calc(100vh - 180px);
