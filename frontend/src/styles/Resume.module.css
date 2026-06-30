@@ -598,3 +598,26 @@
     left: 1.45rem;
   }
 }
+
+/*---------------------------- Admin Modals ----------------------------*/
+
+.adminToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.adminActionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.adminMiniButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+/*----------------------------------------------------------------------*/

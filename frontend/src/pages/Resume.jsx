@@ -1,15 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { Alert, Button, Container, Spinner } from "react-bootstrap";
-
+import ResumeIntroModal from "../components/resume/ResumeIntroModal";
+import styles from "../styles/Resume.module.css";
+import { useAuth } from "../context/AuthContext";
 import AnimatedHero from "../components/home/AnimatedHero";
 import {
+  createResumeIntro,
+  deleteResumeIntro,
   getResumeAwards,
   getResumeIntro,
   getResumeSkillGroups,
   getResumeSkillMeters,
   getResumeWorkExperiences,
+  updateResumeIntro,
 } from "../services/resumeApi";
-import styles from "../styles/Resume.module.css";
 
 function formatDate(dateValue) {
   if (!dateValue) {
@@ -92,6 +96,7 @@ function getTimelineClass(experienceType) {
 }
 
 function Resume() {
+  const { isAdmin } = useAuth();
   const [intro, setIntro] = useState(null);
   const [skillGroups, setSkillGroups] = useState([]);
   const [skillMeters, setSkillMeters] = useState([]);
@@ -99,6 +104,8 @@ function Resume() {
   const [awards, setAwards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showIntroModal, setShowIntroModal] = useState(false);
+  const [isIntroSubmitting, setIsIntroSubmitting] = useState(false);
 
   useEffect(() => {
     async function loadResumeData() {
@@ -157,6 +164,43 @@ function Resume() {
 
   const mainAward = awards[0] || null;
 
+  async function handleSaveIntro(introData) {
+    setIsIntroSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const savedIntro = intro
+        ? await updateResumeIntro(intro.id, introData)
+        : await createResumeIntro(introData);
+
+      setIntro(savedIntro);
+      setShowIntroModal(false);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not save resume intro.");
+    } finally {
+      setIsIntroSubmitting(false);
+    }
+  }
+
+  async function handleDeleteIntro() {
+    const shouldDelete = window.confirm(
+      "Are you sure you want to delete the Resume intro?",
+    );
+
+    if (!shouldDelete || !intro) {
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      await deleteResumeIntro(intro.id);
+      setIntro(null);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not delete resume intro.");
+    }
+  }
+
   return (
     <>
       <AnimatedHero
@@ -178,7 +222,7 @@ function Resume() {
 
           {!isLoading && (
             <>
-              {intro && (
+              {intro ? (
                 <div className={styles.resumeIntro}>
                   <p className="card-label">Resume</p>
 
@@ -191,7 +235,48 @@ function Resume() {
                   {intro.summary && (
                     <p className={styles.resumeSummary}>{intro.summary}</p>
                   )}
+
+                  {isAdmin && (
+                    <div className={styles.adminActionRow}>
+                      <Button
+                        type="button"
+                        variant="outline-light"
+                        size="sm"
+                        className={styles.adminMiniButton}
+                        onClick={() => setShowIntroModal(true)}
+                      >
+                        <i className="fa-solid fa-pen-to-square" />
+                        Edit intro
+                      </Button>
+
+                      <Button
+                        type="button"
+                        variant="outline-danger"
+                        size="sm"
+                        className={styles.adminMiniButton}
+                        onClick={handleDeleteIntro}
+                      >
+                        <i className="fa-solid fa-trash" />
+                        Delete intro
+                      </Button>
+                    </div>
+                  )}
                 </div>
+              ) : (
+                isAdmin && (
+                  <div className={styles.adminToolbar}>
+                    <Button
+                      type="button"
+                      variant="outline-light"
+                      size="sm"
+                      className={styles.adminMiniButton}
+                      onClick={() => setShowIntroModal(true)}
+                    >
+                      <i className="fa-solid fa-plus" />
+                      Create Resume intro
+                    </Button>
+                  </div>
+                )
               )}
 
               <div className={styles.resumeShell}>
@@ -491,6 +576,14 @@ function Resume() {
           )}
         </Container>
       </section>
+
+      <ResumeIntroModal
+        show={showIntroModal}
+        intro={intro}
+        onClose={() => setShowIntroModal(false)}
+        onSave={handleSaveIntro}
+        isSubmitting={isIntroSubmitting}
+      />
     </>
   );
 }
