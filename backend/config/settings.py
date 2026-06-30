@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "portfolio",
     "cv",
     "home",
+    "resume",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
