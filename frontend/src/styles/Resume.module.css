@@ -1,0 +1,600 @@
+.resumeIntro {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(168, 85, 247, 0.22),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(14, 165, 233, 0.13),
+      transparent 35%
+    ),
+    rgba(5, 5, 8, 0.86);
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  border-radius: 1.5rem;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.35);
+}
+
+.resumeTitle {
+  margin-bottom: 0.7rem;
+  color: #c084fc;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 950;
+  line-height: 0.9;
+  letter-spacing: -0.065em;
+  text-shadow: 0 0 30px rgba(168, 85, 247, 0.35);
+}
+
+.resumeSubtitle {
+  max-width: 900px;
+  margin-bottom: 1rem;
+  color: #f8fafc;
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
+  font-weight: 850;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.resumeSummary {
+  max-width: 940px;
+  margin-bottom: 0;
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  line-height: 1.85;
+  white-space: pre-line;
+}
+
+.resumeShell {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(340px, 0.95fr);
+  background: rgba(5, 5, 8, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 1.5rem;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.32);
+}
+
+.skillsPanel {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(168, 85, 247, 0.1),
+      transparent 34%
+    ),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.62), rgba(5, 5, 8, 0.9));
+}
+
+.timelinePanel {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(192, 132, 252, 0.16),
+      transparent 36%
+    ),
+    #192a3a;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.sectionKicker {
+  margin-bottom: 0.45rem;
+  color: #c084fc;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2.4rem;
+}
+
+.featureCard {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.15rem;
+  background:
+    linear-gradient(145deg, rgba(15, 23, 42, 0.72), rgba(5, 5, 8, 0.88)),
+    rgba(5, 5, 8, 0.86);
+  border: 1px solid rgba(168, 85, 247, 0.18);
+  border-radius: 1.15rem;
+  color: #f8fafc;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+}
+
+.featureIcon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  background: rgba(192, 132, 252, 0.11);
+  border: 1px solid rgba(192, 132, 252, 0.28);
+  border-radius: 1rem;
+  color: #c084fc;
+  font-size: 1.35rem;
+}
+
+.featureTitle {
+  margin: 0 0 0.45rem;
+  color: #f8fafc;
+  font-size: 1.2rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.featureText {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 0.96rem;
+  line-height: 1.65;
+}
+
+.progressSection {
+  margin-bottom: 2.4rem;
+}
+
+.meterGrid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.meterCard {
+  position: relative;
+  overflow: hidden;
+  min-height: 34px;
+  background: rgba(226, 232, 240, 0.94);
+  border-radius: 0.65rem;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+}
+
+.meterTop {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0 0.85rem;
+}
+
+.meterName {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #f8fafc;
+  font-size: 0.92rem;
+  font-weight: 850;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.32);
+}
+
+.meterIcon {
+  min-width: 18px;
+  color: #f8fafc;
+  font-size: 1.05rem;
+}
+
+.meterPercent {
+  color: #f8fafc;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.32);
+}
+
+.meterTrack {
+  height: 34px;
+  background: transparent;
+}
+
+.meterFill {
+  height: 100%;
+  min-width: 34px;
+  border-radius: 0.65rem;
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.28);
+}
+
+.groupGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.skillGroupCard {
+  min-height: 100%;
+  padding: 1.1rem;
+  background:
+    linear-gradient(145deg, rgba(15, 23, 42, 0.72), rgba(5, 5, 8, 0.88)),
+    rgba(5, 5, 8, 0.86);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 1.1rem;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.2);
+}
+
+.skillGroupTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.skillGroupIcon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 0.8rem;
+  color: #030712;
+  font-size: 1rem;
+}
+
+.skillGroupTitle {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.skillGroupDescription {
+  margin-bottom: 0.9rem;
+  color: #94a3b8;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.skillList {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skillListItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.skillListItem i {
+  width: 18px;
+  text-align: center;
+}
+
+.skillBadgeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.skillBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.7rem;
+  background: rgba(15, 23, 42, 0.76);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 999px;
+  color: #f8fafc;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.awardsGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.awardCard {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background:
+    linear-gradient(145deg, rgba(15, 23, 42, 0.72), rgba(5, 5, 8, 0.88)),
+    rgba(5, 5, 8, 0.86);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  border-radius: 1.1rem;
+  color: #f8fafc;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.2);
+}
+
+.awardIconBox {
+  display: grid;
+  width: 74px;
+  height: 74px;
+  place-items: center;
+  background: rgba(234, 179, 8, 0.1);
+  border: 1px solid rgba(234, 179, 8, 0.28);
+  border-radius: 1rem;
+  color: #facc15;
+  font-size: 1.8rem;
+}
+
+.awardImage {
+  width: 74px;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.awardBody {
+  min-width: 0;
+}
+
+.awardTitle {
+  margin: 0;
+  color: #facc15;
+  font-size: 1.12rem;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.awardMeta {
+  margin-top: 0.35rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.awardDescription {
+  margin-top: 0.65rem;
+  margin-bottom: 0;
+  color: #cbd5e1;
+  font-size: 0.93rem;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+.awardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+.timelineHeading {
+  margin-bottom: 2rem;
+  color: #f8fafc;
+  text-align: center;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  font-weight: 350;
+  letter-spacing: -0.035em;
+}
+
+.experienceList {
+  display: grid;
+  gap: 0;
+  margin-bottom: 1rem;
+}
+
+.timelineItem {
+  position: relative;
+  padding: 4.2rem 0 0.45rem 1.8rem;
+  color: #f8fafc;
+  border-left: 1px solid rgba(248, 250, 252, 0.68);
+}
+
+.timelineItem::before {
+  content: attr(data-dates);
+  position: absolute;
+  top: 2.75rem;
+  left: 1.8rem;
+  display: block;
+  color: #e2e8f0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.timelineItem::after {
+  content: "";
+  position: absolute;
+  top: 2.25rem;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  background: #f8fafc;
+  border-radius: 999px;
+  box-shadow: 0 0 0 5px rgba(248, 250, 252, 0.1);
+}
+
+.timelineItemEducation::before,
+.timelineItemDataScience::before,
+.timelineItemPsychology::before,
+.timelineItemMilitary::before {
+  color: #a3ff94;
+}
+
+.timelineItemEducation::after,
+.timelineItemDataScience::after,
+.timelineItemPsychology::after,
+.timelineItemMilitary::after {
+  background: #a3ff94;
+  box-shadow: 0 0 0 5px rgba(163, 255, 148, 0.12);
+}
+
+.experienceTitle {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 1.08rem;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.experienceRole {
+  margin-top: 0.35rem;
+  color: #cbd5e1;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.experienceLocation {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.experienceSummary {
+  margin-top: 0.65rem;
+  margin-bottom: 0;
+  color: #dbeafe;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+.experienceBullets {
+  margin-top: 0.65rem;
+  margin-bottom: 0;
+  padding-left: 1.1rem;
+  color: #dbeafe;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  list-style-type: disc;
+}
+
+.experienceBullets li + li {
+  margin-top: 0.35rem;
+}
+
+.typeBadge {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 0.55rem;
+  padding: 0.22rem 0.5rem;
+  background: rgba(248, 250, 252, 0.08);
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  border-radius: 999px;
+  color: #cbd5e1;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.emptyState {
+  padding: 1.15rem;
+  color: #cbd5e1;
+  background: rgba(5, 5, 8, 0.72);
+  border: 1px dashed rgba(168, 85, 247, 0.32);
+  border-radius: 1rem;
+}
+
+.resumeSection {
+  margin-top: 2.4rem;
+}
+
+.resumeCard,
+.experienceCard {
+  padding: 1rem;
+}
+
+@media (max-width: 1199.98px) {
+  .resumeShell {
+    grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.9fr);
+  }
+
+  .groupGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .resumeShell {
+    grid-template-columns: 1fr;
+  }
+
+  .timelinePanel {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .timelineHeading {
+    text-align: left;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .resumeIntro {
+    padding: 1.25rem;
+    border-radius: 1.15rem;
+  }
+
+  .skillsPanel,
+  .timelinePanel {
+    padding: 1.1rem;
+  }
+
+  .featureCard {
+    grid-template-columns: 36px minmax(0, 1fr);
+    padding: 1rem;
+  }
+
+  .featureIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: 0.8rem;
+    font-size: 1.1rem;
+  }
+
+  .groupGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .awardCard {
+    grid-template-columns: 58px minmax(0, 1fr);
+  }
+
+  .awardIconBox,
+  .awardImage {
+    width: 58px;
+    height: 58px;
+  }
+
+  .timelineItem {
+    padding-left: 1.45rem;
+  }
+
+  .timelineItem::before {
+    left: 1.45rem;
+  }
+}
