@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Alert, Button, Container, Spinner } from "react-bootstrap";
 import ResumeIntroModal from "../components/resume/ResumeIntroModal";
+import ResumeSkillMeterModal from "../components/resume/ResumeSkillMeterModal";
 import styles from "../styles/Resume.module.css";
 import { useAuth } from "../context/AuthContext";
 import AnimatedHero from "../components/home/AnimatedHero";
@@ -13,6 +14,9 @@ import {
   getResumeSkillMeters,
   getResumeWorkExperiences,
   updateResumeIntro,
+  createResumeSkillMeter,
+  deleteResumeSkillMeter,
+  updateResumeSkillMeter,
 } from "../services/resumeApi";
 
 function formatDate(dateValue) {
@@ -100,6 +104,9 @@ function Resume() {
   const [intro, setIntro] = useState(null);
   const [skillGroups, setSkillGroups] = useState([]);
   const [skillMeters, setSkillMeters] = useState([]);
+  const [showSkillMeterModal, setShowSkillMeterModal] = useState(false);
+  const [selectedSkillMeter, setSelectedSkillMeter] = useState(null);
+  const [isSkillMeterSubmitting, setIsSkillMeterSubmitting] = useState(false);
   const [workExperiences, setWorkExperiences] = useState([]);
   const [awards, setAwards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -198,6 +205,74 @@ function Resume() {
       setIntro(null);
     } catch (error) {
       setErrorMessage(error.message || "Could not delete resume intro.");
+    }
+  }
+
+  function handleOpenCreateSkillMeter() {
+    setSelectedSkillMeter(null);
+    setShowSkillMeterModal(true);
+  }
+
+  function handleOpenEditSkillMeter(skillMeter) {
+    setSelectedSkillMeter(skillMeter);
+    setShowSkillMeterModal(true);
+  }
+
+  async function handleSaveSkillMeter(skillMeterData) {
+    setIsSkillMeterSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const savedSkillMeter = selectedSkillMeter
+        ? await updateResumeSkillMeter(selectedSkillMeter.id, skillMeterData)
+        : await createResumeSkillMeter(skillMeterData);
+
+      setSkillMeters((currentSkillMeters) => {
+        const updatedSkillMeters = selectedSkillMeter
+          ? currentSkillMeters.map((skillMeter) =>
+              skillMeter.id === savedSkillMeter.id
+                ? savedSkillMeter
+                : skillMeter,
+            )
+          : [...currentSkillMeters, savedSkillMeter];
+
+        return [...updatedSkillMeters].sort(
+          (firstSkillMeter, secondSkillMeter) =>
+            firstSkillMeter.display_order - secondSkillMeter.display_order ||
+            firstSkillMeter.name.localeCompare(secondSkillMeter.name),
+        );
+      });
+
+      setShowSkillMeterModal(false);
+      setSelectedSkillMeter(null);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not save skill meter.");
+    } finally {
+      setIsSkillMeterSubmitting(false);
+    }
+  }
+
+  async function handleDeleteSkillMeter(skillMeter) {
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete "${skillMeter.name}"?`,
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      await deleteResumeSkillMeter(skillMeter.id);
+
+      setSkillMeters((currentSkillMeters) =>
+        currentSkillMeters.filter(
+          (currentSkillMeter) => currentSkillMeter.id !== skillMeter.id,
+        ),
+      );
+    } catch (error) {
+      setErrorMessage(error.message || "Could not delete skill meter.");
     }
   }
 
@@ -335,6 +410,19 @@ function Resume() {
                           Programming Languages
                         </h2>
                       </div>
+
+                      {isAdmin && (
+                        <Button
+                          type="button"
+                          variant="outline-light"
+                          size="sm"
+                          className={styles.adminMiniButton}
+                          onClick={handleOpenCreateSkillMeter}
+                        >
+                          <i className="fa-solid fa-plus" />
+                          Add meter
+                        </Button>
+                      )}
                     </div>
 
                     {skillMeters.length === 0 ? (
@@ -344,31 +432,61 @@ function Resume() {
                     ) : (
                       <div className={styles.meterGrid}>
                         {skillMeters.map((meter) => (
-                          <div className={styles.meterCard} key={meter.id}>
-                            <div className={styles.meterTop}>
-                              <span className={styles.meterName}>
-                                {meter.icon_class && (
-                                  <i
-                                    className={`${styles.meterIcon} ${meter.icon_class}`}
-                                  />
-                                )}
-                                {meter.name}
-                              </span>
+                          <div className={styles.meterItem} key={meter.id}>
+                            <div className={styles.meterCard}>
+                              <div className={styles.meterTop}>
+                                <span className={styles.meterName}>
+                                  {meter.icon_class && (
+                                    <i
+                                      className={`${styles.meterIcon} ${meter.icon_class}`}
+                                    />
+                                  )}
+                                  {meter.name}
+                                </span>
 
-                              <span className={styles.meterPercent}>
-                                {meter.percentage}%
-                              </span>
+                                <span className={styles.meterPercent}>
+                                  {meter.percentage}%
+                                </span>
+                              </div>
+
+                              <div className={styles.meterTrack}>
+                                <div
+                                  className={styles.meterFill}
+                                  style={{
+                                    width: `${meter.percentage}%`,
+                                    backgroundColor: meter.color_hex,
+                                  }}
+                                />
+                              </div>
                             </div>
 
-                            <div className={styles.meterTrack}>
-                              <div
-                                className={styles.meterFill}
-                                style={{
-                                  width: `${meter.percentage}%`,
-                                  backgroundColor: meter.color_hex,
-                                }}
-                              />
-                            </div>
+                            {isAdmin && (
+                              <div className={styles.meterAdminActions}>
+                                <Button
+                                  type="button"
+                                  variant="outline-light"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() =>
+                                    handleOpenEditSkillMeter(meter)
+                                  }
+                                >
+                                  <i className="fa-solid fa-pen-to-square" />
+                                  Edit
+                                </Button>
+
+                                <Button
+                                  type="button"
+                                  variant="outline-danger"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() => handleDeleteSkillMeter(meter)}
+                                >
+                                  <i className="fa-solid fa-trash" />
+                                  Delete
+                                </Button>
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -583,6 +701,17 @@ function Resume() {
         onClose={() => setShowIntroModal(false)}
         onSave={handleSaveIntro}
         isSubmitting={isIntroSubmitting}
+      />
+
+      <ResumeSkillMeterModal
+        show={showSkillMeterModal}
+        skillMeter={selectedSkillMeter}
+        onClose={() => {
+          setShowSkillMeterModal(false);
+          setSelectedSkillMeter(null);
+        }}
+        onSave={handleSaveSkillMeter}
+        isSubmitting={isSkillMeterSubmitting}
       />
     </>
   );
