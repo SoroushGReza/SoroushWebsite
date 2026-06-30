@@ -1,0 +1,142 @@
+.dialog :global(.modal-content) {
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(168, 85, 247, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(5, 5, 8, 0.98));
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  border-radius: 1.35rem;
+  color: #f8fafc;
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.55);
+}
+
+.header {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  padding: 1.25rem 1.35rem;
+}
+
+.header :global(.modal-title) {
+  color: #f8fafc;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+}
+
+.header :global(.btn-close) {
+  filter: invert(1);
+  opacity: 0.75;
+}
+
+.header :global(.btn-close:hover) {
+  opacity: 1;
+}
+
+.body {
+  padding: 1.35rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  padding: 1rem 1.35rem;
+}
+
+.footerActions {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.formGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.formRowTwo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.formRowThree {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.fieldLabel {
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.formHint {
+  margin-top: 0.35rem;
+  color: #94a3b8;
+  font-size: 0.84rem;
+}
+
+.previewRow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.iconPreview {
+  display: inline-grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  background: rgba(248, 250, 252, 0.08);
+  border: 1px solid rgba(248, 250, 252, 0.14);
+  border-radius: 0.9rem;
+  color: #f8fafc;
+  font-size: 1.25rem;
+}
+
+.colorPreview {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(248, 250, 252, 0.18);
+  border-radius: 0.9rem;
+}
+
+.filePreviewImage {
+  display: block;
+  max-width: 240px;
+  max-height: 170px;
+  margin-top: 0.75rem;
+  object-fit: cover;
+  border: 1px solid rgba(248, 250, 252, 0.14);
+  border-radius: 1rem;
+}
+
+.dangerText {
+  color: #fecaca;
+}
+
+@media (max-width: 767.98px) {
+  .body,
+  .header,
+  .footer {
+    padding: 1rem;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+
+  .footerActions {
+    justify-content: flex-end;
+  }
+
+  .formRowTwo,
+  .formRowThree {
+    grid-template-columns: 1fr;
+  }
+}
