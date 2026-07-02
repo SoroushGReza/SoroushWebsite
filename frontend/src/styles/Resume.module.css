@@ -642,4 +642,60 @@
   position: relative;
   z-index: 5;
 }
+
+.timelineHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.timelineHeader .timelineHeading {
+  margin-bottom: 0;
+}
+
+.timelineItem::before,
+.timelineItemEducation::before,
+.timelineItemDataScience::before,
+.timelineItemPsychology::before,
+.timelineItemMilitary::before {
+  color: var(--timeline-accent, #e2e8f0);
+}
+
+.timelineItem::after,
+.timelineItemEducation::after,
+.timelineItemDataScience::after,
+.timelineItemPsychology::after,
+.timelineItemMilitary::after {
+  background: var(--timeline-accent, #f8fafc);
+  box-shadow:
+    0 0 0 5px rgba(248, 250, 252, 0.1),
+    0 0 22px var(--timeline-accent, #f8fafc);
+}
+
+.experienceTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--timeline-accent, #f8fafc);
+}
+
+.experienceIcon {
+  color: var(--timeline-accent, #f8fafc);
+  font-size: 0.95em;
+}
+
+.timelineAdminActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+@media (max-width: 767.98px) {
+  .timelineHeader {
+    flex-direction: column;
+  }
+}
 /*----------------------------------------------------------------------*/

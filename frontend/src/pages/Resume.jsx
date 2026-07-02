@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Alert, Button, Container, Spinner } from "react-bootstrap";
 import ResumeIntroModal from "../components/resume/ResumeIntroModal";
 import ResumeSkillMeterModal from "../components/resume/ResumeSkillMeterModal";
+import ResumeWorkExperienceModal from "../components/resume/ResumeWorkExperienceModal";
 import styles from "../styles/Resume.module.css";
 import { useAuth } from "../context/AuthContext";
 import AnimatedHero from "../components/home/AnimatedHero";
@@ -17,6 +18,12 @@ import {
   createResumeSkillMeter,
   deleteResumeSkillMeter,
   updateResumeSkillMeter,
+  createResumeWorkExperience,
+  createResumeWorkExperienceBullet,
+  deleteResumeWorkExperience,
+  deleteResumeWorkExperienceBullet,
+  updateResumeWorkExperience,
+  updateResumeWorkExperienceBullet,
 } from "../services/resumeApi";
 
 function formatDate(dateValue) {
@@ -113,6 +120,10 @@ function Resume() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showIntroModal, setShowIntroModal] = useState(false);
   const [isIntroSubmitting, setIsIntroSubmitting] = useState(false);
+  const [showWorkExperienceModal, setShowWorkExperienceModal] = useState(false);
+  const [selectedWorkExperience, setSelectedWorkExperience] = useState(null);
+  const [isWorkExperienceSubmitting, setIsWorkExperienceSubmitting] =
+    useState(false);
 
   useEffect(() => {
     async function loadResumeData() {
@@ -273,6 +284,92 @@ function Resume() {
       );
     } catch (error) {
       setErrorMessage(error.message || "Could not delete skill meter.");
+    }
+  }
+
+  function handleOpenCreateWorkExperience() {
+    setSelectedWorkExperience(null);
+    setShowWorkExperienceModal(true);
+  }
+
+  function handleOpenEditWorkExperience(experience) {
+    setSelectedWorkExperience(experience);
+    setShowWorkExperienceModal(true);
+  }
+
+  async function syncWorkExperienceBullets(experienceId, bullets) {
+    const bulletRequests = bullets.map((bullet) => {
+      if (bullet.id && bullet.shouldDelete) {
+        return deleteResumeWorkExperienceBullet(bullet.id);
+      }
+
+      if (bullet.shouldDelete || !bullet.text.trim()) {
+        return Promise.resolve();
+      }
+
+      const bulletData = {
+        experience: experienceId,
+        text: bullet.text.trim(),
+        display_order: bullet.display_order,
+      };
+
+      if (bullet.id) {
+        return updateResumeWorkExperienceBullet(bullet.id, bulletData);
+      }
+
+      return createResumeWorkExperienceBullet(bulletData);
+    });
+
+    await Promise.all(bulletRequests);
+  }
+
+  async function handleSaveWorkExperience({ experienceData, bullets }) {
+    setIsWorkExperienceSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const savedExperience = selectedWorkExperience
+        ? await updateResumeWorkExperience(
+            selectedWorkExperience.id,
+            experienceData,
+          )
+        : await createResumeWorkExperience(experienceData);
+
+      await syncWorkExperienceBullets(savedExperience.id, bullets);
+
+      const refreshedExperiences = await getResumeWorkExperiences();
+      setWorkExperiences(refreshedExperiences);
+
+      setShowWorkExperienceModal(false);
+      setSelectedWorkExperience(null);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not save work experience.");
+    } finally {
+      setIsWorkExperienceSubmitting(false);
+    }
+  }
+
+  async function handleDeleteWorkExperience(experience) {
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete "${experience.title}"?`,
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      await deleteResumeWorkExperience(experience.id);
+
+      setWorkExperiences((currentExperiences) =>
+        currentExperiences.filter(
+          (currentExperience) => currentExperience.id !== experience.id,
+        ),
+      );
+    } catch (error) {
+      setErrorMessage(error.message || "Could not delete work experience.");
     }
   }
 
@@ -624,7 +721,22 @@ function Resume() {
                 </div>
 
                 <aside className={styles.timelinePanel}>
-                  <h2 className={styles.timelineHeading}>Work Experience</h2>
+                  <div className={styles.timelineHeader}>
+                    <h2 className={styles.timelineHeading}>Work Experience</h2>
+
+                    {isAdmin && (
+                      <Button
+                        type="button"
+                        variant="outline-light"
+                        size="sm"
+                        className={styles.adminMiniButton}
+                        onClick={handleOpenCreateWorkExperience}
+                      >
+                        <i className="fa-solid fa-plus" />
+                        Add experience
+                      </Button>
+                    )}
+                  </div>
 
                   {workExperiences.length === 0 ? (
                     <div className={styles.emptyState}>
@@ -651,8 +763,17 @@ function Resume() {
                               dateLabel || (isAdmin ? "No dates set" : "")
                             }
                             key={experience.id}
+                            style={{
+                              "--timeline-accent":
+                                experience.color_hex || "#f8fafc",
+                            }}
                           >
                             <h3 className={styles.experienceTitle}>
+                              {experience.icon_class && (
+                                <i
+                                  className={`${styles.experienceIcon} ${experience.icon_class}`}
+                                />
+                              )}
                               {heading}
                             </h3>
 
@@ -683,6 +804,35 @@ function Resume() {
                             <span className={styles.typeBadge}>
                               {experience.experience_type_label}
                             </span>
+                            {isAdmin && (
+                              <div className={styles.timelineAdminActions}>
+                                <Button
+                                  type="button"
+                                  variant="outline-light"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() =>
+                                    handleOpenEditWorkExperience(experience)
+                                  }
+                                >
+                                  <i className="fa-solid fa-pen-to-square" />
+                                  Edit
+                                </Button>
+
+                                <Button
+                                  type="button"
+                                  variant="outline-danger"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() =>
+                                    handleDeleteWorkExperience(experience)
+                                  }
+                                >
+                                  <i className="fa-solid fa-trash" />
+                                  Delete
+                                </Button>
+                              </div>
+                            )}
                           </article>
                         );
                       })}
@@ -712,6 +862,17 @@ function Resume() {
         }}
         onSave={handleSaveSkillMeter}
         isSubmitting={isSkillMeterSubmitting}
+      />
+
+      <ResumeWorkExperienceModal
+        show={showWorkExperienceModal}
+        experience={selectedWorkExperience}
+        onClose={() => {
+          setShowWorkExperienceModal(false);
+          setSelectedWorkExperience(null);
+        }}
+        onSave={handleSaveWorkExperience}
+        isSubmitting={isWorkExperienceSubmitting}
       />
     </>
   );
