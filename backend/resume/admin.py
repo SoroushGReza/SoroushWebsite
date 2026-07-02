@@ -63,6 +63,8 @@ class WorkExperienceAdmin(admin.ModelAdmin):
         "title",
         "organization",
         "experience_type",
+        "color_hex",
+        "icon_class",
         "start_date",
         "end_date",
         "is_current",
@@ -70,8 +72,14 @@ class WorkExperienceAdmin(admin.ModelAdmin):
         "is_published",
     )
     list_filter = ("experience_type", "is_current", "is_published")
-    list_editable = ("display_order", "is_published")
-    search_fields = ("title", "organization", "location", "summary")
+    list_editable = ("color_hex", "display_order", "is_published")
+    search_fields = (
+        "title",
+        "organization",
+        "location",
+        "summary",
+        "icon_class",
+    )
     ordering = ("display_order", "-start_date", "title")
     inlines = [WorkExperienceBulletInline]
 

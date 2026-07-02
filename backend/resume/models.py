@@ -146,6 +146,16 @@ class WorkExperience(models.Model):
         choices=EXPERIENCE_TYPE_CHOICES,
         default="work",
     )
+    icon_class = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text="Example: fa-solid fa-briefcase, fa-solid fa-graduation-cap, fa-solid fa-shield-halved",
+    )
+    color_hex = models.CharField(
+        max_length=7,
+        default="#a3ff94",
+        validators=[hex_color_validator],
+    )
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     is_current = models.BooleanField(default=False)

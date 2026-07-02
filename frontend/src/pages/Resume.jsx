@@ -24,9 +24,9 @@ function formatDate(dateValue) {
     return "";
   }
 
-  return new Date(dateValue).toLocaleDateString("en-GB", {
+  return new Date(dateValue).toLocaleDateString("en-US", {
     year: "numeric",
-    month: "short",
+    month: "long",
   });
 }
 
@@ -37,7 +37,7 @@ function formatExperienceDate(experience) {
     : formatDate(experience.end_date);
 
   if (startDate && endDate) {
-    return `${startDate} - ${endDate}`;
+    return `${startDate} – ${endDate}`;
   }
 
   if (startDate) {
@@ -633,9 +633,7 @@ function Resume() {
                   ) : (
                     <div className={styles.experienceList}>
                       {workExperiences.map((experience) => {
-                        const dateLabel =
-                          formatExperienceDate(experience) ||
-                          experience.experience_type_label;
+                        const dateLabel = formatExperienceDate(experience);
 
                         const heading =
                           experience.organization || experience.title;
@@ -649,7 +647,9 @@ function Resume() {
                             className={getTimelineClass(
                               experience.experience_type,
                             )}
-                            data-dates={dateLabel}
+                            data-dates={
+                              dateLabel || (isAdmin ? "No dates set" : "")
+                            }
                             key={experience.id}
                           >
                             <h3 className={styles.experienceTitle}>

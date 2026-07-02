@@ -135,6 +135,8 @@ class WorkExperienceSerializer(serializers.ModelSerializer):
             "location",
             "experience_type",
             "experience_type_label",
+            "icon_class",
+            "color_hex",
             "start_date",
             "end_date",
             "is_current",
