@@ -73,6 +73,7 @@ class SkillGroupSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "description",
+            "icon_class",
             "color_hex",
             "display_order",
             "is_published",

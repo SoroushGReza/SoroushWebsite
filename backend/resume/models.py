@@ -40,6 +40,11 @@ class ResumeIntro(models.Model):
 class SkillGroup(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField(blank=True)
+    icon_class = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text="Example: fa-solid fa-code, fa-solid fa-database, fa-solid fa-brain",
+    )
     color_hex = models.CharField(
         max_length=7,
         default="#0dcaf0",

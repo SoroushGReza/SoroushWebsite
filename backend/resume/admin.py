@@ -27,9 +27,16 @@ class SkillInline(admin.TabularInline):
 
 @admin.register(SkillGroup)
 class SkillGroupAdmin(admin.ModelAdmin):
-    list_display = ("name", "display_order", "is_published", "updated_at")
-    list_editable = ("display_order", "is_published")
-    search_fields = ("name", "description")
+    list_display = (
+        "name",
+        "icon_class",
+        "color_hex",
+        "display_order",
+        "is_published",
+        "updated_at",
+    )
+    list_editable = ("icon_class", "color_hex", "display_order", "is_published")
+    search_fields = ("name", "description", "icon_class")
     ordering = ("display_order", "name")
     inlines = [SkillInline]
 
