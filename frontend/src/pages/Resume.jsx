@@ -3,6 +3,7 @@ import { Alert, Button, Container, Spinner } from "react-bootstrap";
 import ResumeIntroModal from "../components/resume/ResumeIntroModal";
 import ResumeSkillMeterModal from "../components/resume/ResumeSkillMeterModal";
 import ResumeSkillGroupModal from "../components/resume/ResumeSkillGroupModal";
+import ResumeSkillModal from "../components/resume/ResumeSkillModal";
 import ResumeWorkExperienceModal from "../components/resume/ResumeWorkExperienceModal";
 import styles from "../styles/Resume.module.css";
 import { useAuth } from "../context/AuthContext";
@@ -28,6 +29,9 @@ import {
   createResumeSkillGroup,
   deleteResumeSkillGroup,
   updateResumeSkillGroup,
+  createResumeSkill,
+  deleteResumeSkill,
+  updateResumeSkill,
 } from "../services/resumeApi";
 
 function formatDate(dateValue) {
@@ -131,6 +135,11 @@ function Resume() {
   const [showSkillGroupModal, setShowSkillGroupModal] = useState(false);
   const [selectedSkillGroup, setSelectedSkillGroup] = useState(null);
   const [isSkillGroupSubmitting, setIsSkillGroupSubmitting] = useState(false);
+  const [showSkillModal, setShowSkillModal] = useState(false);
+  const [selectedSkill, setSelectedSkill] = useState(null);
+  const [selectedSkillDefaultGroup, setSelectedSkillDefaultGroup] =
+    useState(null);
+  const [isSkillSubmitting, setIsSkillSubmitting] = useState(false);
 
   useEffect(() => {
     async function loadResumeData() {
@@ -448,6 +457,63 @@ function Resume() {
     }
   }
 
+  function handleOpenCreateSkill(skillGroup) {
+    setSelectedSkill(null);
+    setSelectedSkillDefaultGroup(skillGroup);
+    setShowSkillModal(true);
+  }
+
+  function handleOpenEditSkill(skill, skillGroup) {
+    setSelectedSkill(skill);
+    setSelectedSkillDefaultGroup(skillGroup);
+    setShowSkillModal(true);
+  }
+
+  async function handleSaveSkill(skillData) {
+    setIsSkillSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      if (selectedSkill) {
+        await updateResumeSkill(selectedSkill.id, skillData);
+      } else {
+        await createResumeSkill(skillData);
+      }
+
+      const refreshedSkillGroups = await getResumeSkillGroups();
+      setSkillGroups(refreshedSkillGroups);
+
+      setShowSkillModal(false);
+      setSelectedSkill(null);
+      setSelectedSkillDefaultGroup(null);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not save skill.");
+    } finally {
+      setIsSkillSubmitting(false);
+    }
+  }
+
+  async function handleDeleteSkill(skill) {
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete "${skill.name}"?`,
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      await deleteResumeSkill(skill.id);
+
+      const refreshedSkillGroups = await getResumeSkillGroups();
+      setSkillGroups(refreshedSkillGroups);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not delete skill.");
+    }
+  }
+
   return (
     <>
       <AnimatedHero
@@ -723,28 +789,77 @@ function Resume() {
                               </p>
                             )}
 
-                            {group.skills.length > 0 && (
+                            {group.skills.length > 0 ? (
                               <ul className={styles.skillList}>
                                 {group.skills.map((skill) => (
                                   <li
                                     className={styles.skillListItem}
                                     key={skill.id}
                                   >
-                                    <i
-                                      className={
-                                        skill.icon_class ||
-                                        "fa-solid fa-circle-check"
-                                      }
-                                      style={{ color: skill.color_hex }}
-                                    />
-                                    <span>{skill.name}</span>
+                                    <span className={styles.skillItemText}>
+                                      <i
+                                        className={
+                                          skill.icon_class ||
+                                          "fa-solid fa-circle-check"
+                                        }
+                                        style={{ color: skill.color_hex }}
+                                      />
+                                      <span>{skill.name}</span>
+                                    </span>
+
+                                    {isAdmin && (
+                                      <span className={styles.skillItemActions}>
+                                        <Button
+                                          type="button"
+                                          variant="outline-light"
+                                          size="sm"
+                                          className={styles.adminIconOnlyButton}
+                                          onClick={() =>
+                                            handleOpenEditSkill(skill, group)
+                                          }
+                                          title="Edit skill"
+                                        >
+                                          <i className="fa-solid fa-pen-to-square" />
+                                        </Button>
+
+                                        <Button
+                                          type="button"
+                                          variant="outline-danger"
+                                          size="sm"
+                                          className={styles.adminIconOnlyButton}
+                                          onClick={() =>
+                                            handleDeleteSkill(skill)
+                                          }
+                                          title="Delete skill"
+                                        >
+                                          <i className="fa-solid fa-trash" />
+                                        </Button>
+                                      </span>
+                                    )}
                                   </li>
                                 ))}
                               </ul>
+                            ) : (
+                              isAdmin && (
+                                <div className={styles.emptyInlineState}>
+                                  No skills yet. Add the first one.
+                                </div>
+                              )
                             )}
 
                             {isAdmin && (
                               <div className={styles.adminMiniActions}>
+                                <Button
+                                  type="button"
+                                  variant="outline-success"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() => handleOpenCreateSkill(group)}
+                                >
+                                  <i className="fa-solid fa-plus" />
+                                  Add skill
+                                </Button>
+
                                 <Button
                                   type="button"
                                   variant="outline-light"
@@ -1005,6 +1120,20 @@ function Resume() {
         }}
         onSave={handleSaveSkillGroup}
         isSubmitting={isSkillGroupSubmitting}
+      />
+
+      <ResumeSkillModal
+        show={showSkillModal}
+        skill={selectedSkill}
+        skillGroups={skillGroups}
+        defaultGroup={selectedSkillDefaultGroup}
+        onClose={() => {
+          setShowSkillModal(false);
+          setSelectedSkill(null);
+          setSelectedSkillDefaultGroup(null);
+        }}
+        onSave={handleSaveSkill}
+        isSubmitting={isSkillSubmitting}
       />
     </>
   );
