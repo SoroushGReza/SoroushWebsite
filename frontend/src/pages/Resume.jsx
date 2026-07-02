@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Alert, Button, Container, Spinner } from "react-bootstrap";
 import ResumeIntroModal from "../components/resume/ResumeIntroModal";
 import ResumeSkillMeterModal from "../components/resume/ResumeSkillMeterModal";
+import ResumeSkillGroupModal from "../components/resume/ResumeSkillGroupModal";
 import ResumeWorkExperienceModal from "../components/resume/ResumeWorkExperienceModal";
 import styles from "../styles/Resume.module.css";
 import { useAuth } from "../context/AuthContext";
@@ -24,6 +25,9 @@ import {
   deleteResumeWorkExperienceBullet,
   updateResumeWorkExperience,
   updateResumeWorkExperienceBullet,
+  createResumeSkillGroup,
+  deleteResumeSkillGroup,
+  updateResumeSkillGroup,
 } from "../services/resumeApi";
 
 function formatDate(dateValue) {
@@ -124,6 +128,9 @@ function Resume() {
   const [selectedWorkExperience, setSelectedWorkExperience] = useState(null);
   const [isWorkExperienceSubmitting, setIsWorkExperienceSubmitting] =
     useState(false);
+  const [showSkillGroupModal, setShowSkillGroupModal] = useState(false);
+  const [selectedSkillGroup, setSelectedSkillGroup] = useState(null);
+  const [isSkillGroupSubmitting, setIsSkillGroupSubmitting] = useState(false);
 
   useEffect(() => {
     async function loadResumeData() {
@@ -373,6 +380,74 @@ function Resume() {
     }
   }
 
+  function sortSkillGroups(groups) {
+    return [...groups].sort(
+      (firstGroup, secondGroup) =>
+        firstGroup.display_order - secondGroup.display_order ||
+        firstGroup.name.localeCompare(secondGroup.name),
+    );
+  }
+
+  function handleOpenCreateSkillGroup() {
+    setSelectedSkillGroup(null);
+    setShowSkillGroupModal(true);
+  }
+
+  function handleOpenEditSkillGroup(skillGroup) {
+    setSelectedSkillGroup(skillGroup);
+    setShowSkillGroupModal(true);
+  }
+
+  async function handleSaveSkillGroup(skillGroupData) {
+    setIsSkillGroupSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const savedSkillGroup = selectedSkillGroup
+        ? await updateResumeSkillGroup(selectedSkillGroup.id, skillGroupData)
+        : await createResumeSkillGroup(skillGroupData);
+
+      setSkillGroups((currentSkillGroups) => {
+        const updatedSkillGroups = selectedSkillGroup
+          ? currentSkillGroups.map((group) =>
+              group.id === savedSkillGroup.id ? savedSkillGroup : group,
+            )
+          : [...currentSkillGroups, savedSkillGroup];
+
+        return sortSkillGroups(updatedSkillGroups);
+      });
+
+      setShowSkillGroupModal(false);
+      setSelectedSkillGroup(null);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not save skill group.");
+    } finally {
+      setIsSkillGroupSubmitting(false);
+    }
+  }
+
+  async function handleDeleteSkillGroup(skillGroup) {
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete "${skillGroup.name}"? This will also delete the skills inside this group.`,
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      await deleteResumeSkillGroup(skillGroup.id);
+
+      setSkillGroups((currentSkillGroups) =>
+        currentSkillGroups.filter((group) => group.id !== skillGroup.id),
+      );
+    } catch (error) {
+      setErrorMessage(error.message || "Could not delete skill group.");
+    }
+  }
+
   return (
     <>
       <AnimatedHero
@@ -598,6 +673,19 @@ function Resume() {
                           Technical Skillset
                         </h2>
                       </div>
+
+                      {isAdmin && (
+                        <Button
+                          type="button"
+                          variant="outline-light"
+                          size="sm"
+                          className={styles.adminMiniButton}
+                          onClick={handleOpenCreateSkillGroup}
+                        >
+                          <i className="fa-solid fa-plus" />
+                          Add group
+                        </Button>
+                      )}
                     </div>
 
                     {toolkitGroups.length === 0 ? (
@@ -616,7 +704,12 @@ function Resume() {
                                 className={styles.skillGroupIcon}
                                 style={{ backgroundColor: group.color_hex }}
                               >
-                                <i className={getGroupIconClass(group.name)} />
+                                <i
+                                  className={
+                                    group.icon_class ||
+                                    getGroupIconClass(group.name)
+                                  }
+                                />
                               </div>
 
                               <h3 className={styles.skillGroupTitle}>
@@ -648,6 +741,34 @@ function Resume() {
                                   </li>
                                 ))}
                               </ul>
+                            )}
+
+                            {isAdmin && (
+                              <div className={styles.adminMiniActions}>
+                                <Button
+                                  type="button"
+                                  variant="outline-light"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() =>
+                                    handleOpenEditSkillGroup(group)
+                                  }
+                                >
+                                  <i className="fa-solid fa-pen-to-square" />
+                                  Edit group
+                                </Button>
+
+                                <Button
+                                  type="button"
+                                  variant="outline-danger"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() => handleDeleteSkillGroup(group)}
+                                >
+                                  <i className="fa-solid fa-trash" />
+                                  Delete group
+                                </Button>
+                              </div>
                             )}
                           </article>
                         ))}
@@ -873,6 +994,17 @@ function Resume() {
         }}
         onSave={handleSaveWorkExperience}
         isSubmitting={isWorkExperienceSubmitting}
+      />
+
+      <ResumeSkillGroupModal
+        show={showSkillGroupModal}
+        skillGroup={selectedSkillGroup}
+        onClose={() => {
+          setShowSkillGroupModal(false);
+          setSelectedSkillGroup(null);
+        }}
+        onSave={handleSaveSkillGroup}
+        isSubmitting={isSkillGroupSubmitting}
       />
     </>
   );
