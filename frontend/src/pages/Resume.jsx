@@ -5,6 +5,7 @@ import ResumeSkillMeterModal from "../components/resume/ResumeSkillMeterModal";
 import ResumeSkillGroupModal from "../components/resume/ResumeSkillGroupModal";
 import ResumeSkillModal from "../components/resume/ResumeSkillModal";
 import ResumeWorkExperienceModal from "../components/resume/ResumeWorkExperienceModal";
+import ResumeAwardModal from "../components/resume/ResumeAwardModal";
 import styles from "../styles/Resume.module.css";
 import { useAuth } from "../context/AuthContext";
 import AnimatedHero from "../components/home/AnimatedHero";
@@ -32,6 +33,9 @@ import {
   createResumeSkill,
   deleteResumeSkill,
   updateResumeSkill,
+  createResumeAward,
+  deleteResumeAward,
+  updateResumeAward,
 } from "../services/resumeApi";
 
 function formatDate(dateValue) {
@@ -140,6 +144,9 @@ function Resume() {
   const [selectedSkillDefaultGroup, setSelectedSkillDefaultGroup] =
     useState(null);
   const [isSkillSubmitting, setIsSkillSubmitting] = useState(false);
+  const [showAwardModal, setShowAwardModal] = useState(false);
+  const [selectedAward, setSelectedAward] = useState(null);
+  const [isAwardSubmitting, setIsAwardSubmitting] = useState(false);
 
   useEffect(() => {
     async function loadResumeData() {
@@ -511,6 +518,74 @@ function Resume() {
       setSkillGroups(refreshedSkillGroups);
     } catch (error) {
       setErrorMessage(error.message || "Could not delete skill.");
+    }
+  }
+
+  function sortAwards(awardItems) {
+    return [...awardItems].sort(
+      (firstAward, secondAward) =>
+        firstAward.display_order - secondAward.display_order ||
+        firstAward.title.localeCompare(secondAward.title),
+    );
+  }
+
+  function handleOpenCreateAward() {
+    setSelectedAward(null);
+    setShowAwardModal(true);
+  }
+
+  function handleOpenEditAward(award) {
+    setSelectedAward(award);
+    setShowAwardModal(true);
+  }
+
+  async function handleSaveAward(awardData) {
+    setIsAwardSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const savedAward = selectedAward
+        ? await updateResumeAward(selectedAward.id, awardData)
+        : await createResumeAward(awardData);
+
+      setAwards((currentAwards) => {
+        const updatedAwards = selectedAward
+          ? currentAwards.map((award) =>
+              award.id === savedAward.id ? savedAward : award,
+            )
+          : [...currentAwards, savedAward];
+
+        return sortAwards(updatedAwards);
+      });
+
+      setShowAwardModal(false);
+      setSelectedAward(null);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not save award.");
+    } finally {
+      setIsAwardSubmitting(false);
+    }
+  }
+
+  async function handleDeleteAward(award) {
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete "${award.title}"?`,
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      await deleteResumeAward(award.id);
+
+      setAwards((currentAwards) =>
+        currentAwards.filter((currentAward) => currentAward.id !== award.id),
+      );
+    } catch (error) {
+      setErrorMessage(error.message || "Could not delete award.");
     }
   }
 
@@ -891,7 +966,7 @@ function Resume() {
                     )}
                   </div>
 
-                  {awards.length > 0 && (
+                  {(awards.length > 0 || isAdmin) && (
                     <div className={styles.resumeSection}>
                       <div className={styles.sectionHeader}>
                         <div>
@@ -900,58 +975,98 @@ function Resume() {
                         </div>
                       </div>
 
-                      <div className={styles.awardsGrid}>
-                        {awards.map((award) => (
-                          <article className={styles.awardCard} key={award.id}>
-                            {award.file_type === "image" && award.file_url ? (
-                              <img
-                                src={award.file_url}
-                                alt={award.title}
-                                className={styles.awardImage}
-                              />
-                            ) : (
-                              <div className={styles.awardIconBox}>
-                                <i className="fa-solid fa-medal" />
-                              </div>
-                            )}
-
-                            <div className={styles.awardBody}>
-                              <h3 className={styles.awardTitle}>
-                                {award.title}
-                              </h3>
-
-                              <div className={styles.awardMeta}>
-                                {award.issuer && <span>{award.issuer}</span>}
-
-                                {award.award_date && (
-                                  <span> · {formatDate(award.award_date)}</span>
-                                )}
-                              </div>
-
-                              {award.description && (
-                                <p className={styles.awardDescription}>
-                                  {award.description}
-                                </p>
-                              )}
-
-                              {award.file_url && (
-                                <div className={styles.awardActions}>
-                                  <Button
-                                    href={award.file_url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    variant="outline-warning"
-                                    size="sm"
-                                  >
-                                    Open{" "}
-                                    {award.file_type === "pdf" ? "PDF" : "File"}
-                                  </Button>
+                      {awards.length === 0 ? (
+                        <div className={styles.emptyState}>
+                          No awards have been published yet.
+                        </div>
+                      ) : (
+                        <div className={styles.awardsGrid}>
+                          {awards.map((award) => (
+                            <article
+                              className={styles.awardCard}
+                              key={award.id}
+                            >
+                              {award.file_type === "image" && award.file_url ? (
+                                <img
+                                  src={award.file_url}
+                                  alt={award.title}
+                                  className={styles.awardImage}
+                                />
+                              ) : (
+                                <div className={styles.awardIconBox}>
+                                  <i className="fa-solid fa-medal" />
                                 </div>
                               )}
-                            </div>
-                          </article>
-                        ))}
-                      </div>
+
+                              <div className={styles.awardBody}>
+                                <h3 className={styles.awardTitle}>
+                                  {award.title}
+                                </h3>
+
+                                <div className={styles.awardMeta}>
+                                  {award.issuer && <span>{award.issuer}</span>}
+
+                                  {award.award_date && (
+                                    <span>
+                                      {" "}
+                                      · {formatDate(award.award_date)}
+                                    </span>
+                                  )}
+                                </div>
+
+                                {award.description && (
+                                  <p className={styles.awardDescription}>
+                                    {award.description}
+                                  </p>
+                                )}
+
+                                {award.file_url && (
+                                  <div className={styles.awardActions}>
+                                    <Button
+                                      href={award.file_url}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      variant="outline-warning"
+                                      size="sm"
+                                    >
+                                      Open{" "}
+                                      {award.file_type === "pdf"
+                                        ? "PDF"
+                                        : "File"}
+                                    </Button>
+                                  </div>
+                                )}
+
+                                {isAdmin && (
+                                  <div className={styles.adminMiniActions}>
+                                    <Button
+                                      type="button"
+                                      variant="outline-light"
+                                      size="sm"
+                                      className={styles.adminMiniButton}
+                                      onClick={() => handleOpenEditAward(award)}
+                                    >
+                                      <i className="fa-solid fa-pen-to-square" />
+                                      Edit award
+                                    </Button>
+
+                                    <Button
+                                      type="button"
+                                      variant="outline-danger"
+                                      size="sm"
+                                      className={styles.adminMiniButton}
+                                      onClick={() => handleDeleteAward(award)}
+                                    >
+                                      <i className="fa-solid fa-trash" />
+                                      Delete award
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            </article>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1134,6 +1249,17 @@ function Resume() {
         }}
         onSave={handleSaveSkill}
         isSubmitting={isSkillSubmitting}
+      />
+
+      <ResumeAwardModal
+        show={showAwardModal}
+        award={selectedAward}
+        onClose={() => {
+          setShowAwardModal(false);
+          setSelectedAward(null);
+        }}
+        onSave={handleSaveAward}
+        isSubmitting={isAwardSubmitting}
       />
     </>
   );
