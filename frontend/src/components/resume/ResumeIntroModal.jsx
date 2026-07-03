@@ -5,7 +5,7 @@ import modalStyles from "../../styles/Modals.module.css";
 import ResumeModal from "./ResumeModal";
 
 const emptyIntroForm = {
-  title: "Resume",
+  title: "",
   subtitle: "",
   summary: "",
   is_published: true,
@@ -23,7 +23,7 @@ function ResumeIntroModal({
   useEffect(() => {
     if (intro) {
       setFormData({
-        title: intro.title || "Resume",
+        title: intro.title || "",
         subtitle: intro.subtitle || "",
         summary: intro.summary || "",
         is_published: intro.is_published ?? true,
@@ -64,7 +64,6 @@ function ResumeIntroModal({
             name="title"
             value={formData.title}
             onChange={handleChange}
-            required
           />
         </Form.Group>
 

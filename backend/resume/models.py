@@ -17,7 +17,7 @@ def validate_award_file(file):
 
 
 class ResumeIntro(models.Model):
-    title = models.CharField(max_length=160, default="Resume")
+    title = models.CharField(max_length=160, blank=True, default="")
     subtitle = models.CharField(max_length=220, blank=True)
     summary = models.TextField(blank=True)
     is_published = models.BooleanField(default=True)

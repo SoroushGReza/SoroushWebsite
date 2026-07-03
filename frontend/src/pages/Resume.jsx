@@ -614,7 +614,9 @@ function Resume() {
                 <div className={styles.resumeIntro}>
                   <p className="card-label">Resume</p>
 
-                  <h1 className={styles.resumeTitle}>{intro.title}</h1>
+                  {intro.title && (
+                    <h1 className={styles.resumeTitle}>{intro.title}</h1>
+                  )}
 
                   {intro.subtitle && (
                     <h2 className={styles.resumeSubtitle}>{intro.subtitle}</h2>
