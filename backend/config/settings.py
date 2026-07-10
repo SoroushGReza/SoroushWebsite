@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "home",
     "resume",
     "education",
+    "contact",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
