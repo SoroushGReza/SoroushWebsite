@@ -867,12 +867,6 @@ function Resume() {
                               </h3>
                             </div>
 
-                            {group.description && (
-                              <p className={styles.skillGroupDescription}>
-                                {group.description}
-                              </p>
-                            )}
-
                             {group.skills.length > 0 ? (
                               <ul className={styles.skillList}>
                                 {group.skills.map((skill) => (

@@ -89,7 +89,7 @@ function ResumeSkillGroupModal({
 
         <Form.Group>
           <Form.Label className={modalStyles.fieldLabel}>
-            Description
+            Profile description
           </Form.Label>
           <Form.Control
             as="textarea"
@@ -97,7 +97,7 @@ function ResumeSkillGroupModal({
             name="description"
             value={formData.description}
             onChange={handleChange}
-            placeholder="Short description shown inside the skill group card..."
+            placeholder="Short text shown in My Skills when this group is selected for the Technical profile..."
           />
         </Form.Group>
 
