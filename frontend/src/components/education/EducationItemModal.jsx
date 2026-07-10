@@ -148,7 +148,7 @@ function EducationItemModal({
               name="title"
               value={formData.title}
               onChange={handleChange}
-              placeholder="Diploma in Full Stack Software Development"
+              placeholder="What kind of diploma / certificate"
               required
             />
           </Form.Group>
@@ -162,7 +162,7 @@ function EducationItemModal({
               name="institution"
               value={formData.institution}
               onChange={handleChange}
-              placeholder="Code Institute"
+              placeholder="name of institution"
             />
           </Form.Group>
         </div>
@@ -190,7 +190,7 @@ function EducationItemModal({
               name="location"
               value={formData.location}
               onChange={handleChange}
-              placeholder="Dublin"
+              placeholder="city / country"
             />
           </Form.Group>
 
@@ -232,7 +232,7 @@ function EducationItemModal({
               name="icon_class"
               value={formData.icon_class}
               onChange={handleChange}
-              placeholder="fa-solid fa-code"
+              placeholder="e.g fa-solid fa-code"
             />
 
             <div className={modalStyles.formHint}>
@@ -318,7 +318,7 @@ function EducationItemModal({
               name="link_url"
               value={formData.link_url}
               onChange={handleChange}
-              placeholder="https://www.credential.net/..."
+              placeholder="paste in URL"
             />
           </Form.Group>
 
@@ -331,7 +331,7 @@ function EducationItemModal({
               name="link_text"
               value={formData.link_text}
               onChange={handleChange}
-              placeholder="View Credential"
+              placeholder="Link name here"
             />
           </Form.Group>
         </div>
