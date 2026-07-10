@@ -179,11 +179,7 @@ function Resume() {
     [skillGroups],
   );
 
-  const toolkitGroups = useMemo(() => {
-    const profileIds = profileGroups.map((group) => group.id);
-
-    return skillGroups.filter((group) => !profileIds.includes(group.id));
-  }, [skillGroups, profileGroups]);
+  const toolkitGroups = useMemo(() => skillGroups, [skillGroups]);
 
   async function handleSaveIntro(introData) {
     setIsIntroSubmitting(true);
@@ -695,72 +691,8 @@ function Resume() {
                               </p>
                             )}
 
-                            {group.skills.length > 0 && (
-                              <div className={styles.profileSkillList}>
-                                {group.skills.map((skill) => (
-                                  <span
-                                    className={styles.profileSkillBadge}
-                                    key={skill.id}
-                                  >
-                                    <i
-                                      className={
-                                        skill.icon_class ||
-                                        "fa-solid fa-circle-check"
-                                      }
-                                      style={{ color: skill.color_hex }}
-                                    />
-
-                                    <span>{skill.name}</span>
-
-                                    {isAdmin && (
-                                      <span
-                                        className={styles.profileSkillActions}
-                                      >
-                                        <Button
-                                          type="button"
-                                          variant="outline-light"
-                                          size="sm"
-                                          className={styles.profileSkillButton}
-                                          onClick={() =>
-                                            handleOpenEditSkill(skill, group)
-                                          }
-                                          title="Edit skill"
-                                        >
-                                          <i className="fa-solid fa-pen-to-square" />
-                                        </Button>
-
-                                        <Button
-                                          type="button"
-                                          variant="outline-danger"
-                                          size="sm"
-                                          className={styles.profileSkillButton}
-                                          onClick={() =>
-                                            handleDeleteSkill(skill)
-                                          }
-                                          title="Delete skill"
-                                        >
-                                          <i className="fa-solid fa-trash" />
-                                        </Button>
-                                      </span>
-                                    )}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-
                             {isAdmin && (
                               <div className={styles.adminMiniActions}>
-                                <Button
-                                  type="button"
-                                  variant="outline-success"
-                                  size="sm"
-                                  className={styles.adminMiniButton}
-                                  onClick={() => handleOpenCreateSkill(group)}
-                                >
-                                  <i className="fa-solid fa-plus" />
-                                  Add skill
-                                </Button>
-
                                 <Button
                                   type="button"
                                   variant="outline-light"
