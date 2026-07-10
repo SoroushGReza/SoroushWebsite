@@ -10,6 +10,7 @@ const emptySkillGroupForm = {
   icon_class: "",
   color_hex: "#a855f7",
   display_order: 100,
+  show_in_profile: false,
   is_published: true,
 };
 
@@ -30,6 +31,7 @@ function ResumeSkillGroupModal({
         icon_class: skillGroup.icon_class || "",
         color_hex: skillGroup.color_hex || "#a855f7",
         display_order: skillGroup.display_order ?? 100,
+        show_in_profile: skillGroup.show_in_profile ?? false,
         is_published: skillGroup.is_published ?? true,
       });
 
@@ -57,6 +59,7 @@ function ResumeSkillGroupModal({
       icon_class: formData.icon_class,
       color_hex: formData.color_hex,
       display_order: Number(formData.display_order),
+      show_in_profile: formData.show_in_profile,
       is_published: formData.is_published,
     });
   }
@@ -160,14 +163,25 @@ function ResumeSkillGroupModal({
           />
         </div>
 
-        <Form.Check
-          type="switch"
-          id="skill-group-is-published"
-          name="is_published"
-          label="Published"
-          checked={formData.is_published}
-          onChange={handleChange}
-        />
+        <div className={modalStyles.formRowTwo}>
+          <Form.Check
+            type="switch"
+            id="skill-group-show-in-profile"
+            name="show_in_profile"
+            label="Show in Technical profile / My Skills"
+            checked={formData.show_in_profile}
+            onChange={handleChange}
+          />
+
+          <Form.Check
+            type="switch"
+            id="skill-group-is-published"
+            name="is_published"
+            label="Published"
+            checked={formData.is_published}
+            onChange={handleChange}
+          />
+        </div>
       </div>
     </ResumeModal>
   );

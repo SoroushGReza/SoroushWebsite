@@ -70,14 +70,6 @@ function normalizeName(value) {
   return value.toLowerCase().replaceAll(" ", "").replaceAll("-", "");
 }
 
-function findGroup(skillGroups, possibleNames) {
-  return skillGroups.find((group) =>
-    possibleNames.some(
-      (name) => normalizeName(group.name) === normalizeName(name),
-    ),
-  );
-}
-
 function getGroupIconClass(groupName) {
   const normalizedName = normalizeName(groupName);
 
@@ -182,28 +174,16 @@ function Resume() {
     loadResumeData();
   }, []);
 
-  const frontendGroup = useMemo(
-    () => findGroup(skillGroups, ["Frontend", "Front End"]),
+  const profileGroups = useMemo(
+    () => skillGroups.filter((group) => group.show_in_profile),
     [skillGroups],
-  );
-
-  const backendGroup = useMemo(
-    () => findGroup(skillGroups, ["Backend", "Back End"]),
-    [skillGroups],
-  );
-
-  const featureGroups = useMemo(
-    () => [frontendGroup, backendGroup].filter(Boolean),
-    [frontendGroup, backendGroup],
   );
 
   const toolkitGroups = useMemo(() => {
-    const featureIds = featureGroups.map((group) => group.id);
+    const profileIds = profileGroups.map((group) => group.id);
 
-    return skillGroups.filter((group) => !featureIds.includes(group.id));
-  }, [skillGroups, featureGroups]);
-
-  const mainAward = awards[0] || null;
+    return skillGroups.filter((group) => !profileIds.includes(group.id));
+  }, [skillGroups, profileGroups]);
 
   async function handleSaveIntro(introData) {
     setIsIntroSubmitting(true);
@@ -679,41 +659,136 @@ function Resume() {
                   </div>
 
                   <div className={styles.featureGrid}>
-                    {featureGroups.map((group) => (
-                      <article className={styles.featureCard} key={group.id}>
-                        <div className={styles.featureIcon}>
-                          <i className={getGroupIconClass(group.name)} />
-                        </div>
+                    {profileGroups.length === 0 ? (
+                      <div
+                        className={`${styles.emptyState} ${styles.featureEmptyState}`}
+                      >
+                        No skill groups have been selected for the Technical
+                        profile yet.
+                      </div>
+                    ) : (
+                      profileGroups.map((group) => (
+                        <article
+                          className={styles.featureCard}
+                          key={group.id}
+                          style={{
+                            "--profile-accent": group.color_hex || "#c084fc",
+                          }}
+                        >
+                          <div className={styles.featureIcon}>
+                            <i
+                              className={
+                                group.icon_class ||
+                                getGroupIconClass(group.name)
+                              }
+                            />
+                          </div>
 
-                        <div>
-                          <h3 className={styles.featureTitle}>{group.name}</h3>
+                          <div>
+                            <h3 className={styles.featureTitle}>
+                              {group.name}
+                            </h3>
 
-                          {group.description && (
-                            <p className={styles.featureText}>
-                              {group.description}
-                            </p>
-                          )}
-                        </div>
-                      </article>
-                    ))}
+                            {group.description && (
+                              <p className={styles.featureText}>
+                                {group.description}
+                              </p>
+                            )}
 
-                    {mainAward && (
-                      <article className={styles.featureCard}>
-                        <div className={styles.featureIcon}>
-                          <i className="fa-solid fa-medal" />
-                        </div>
+                            {group.skills.length > 0 && (
+                              <div className={styles.profileSkillList}>
+                                {group.skills.map((skill) => (
+                                  <span
+                                    className={styles.profileSkillBadge}
+                                    key={skill.id}
+                                  >
+                                    <i
+                                      className={
+                                        skill.icon_class ||
+                                        "fa-solid fa-circle-check"
+                                      }
+                                      style={{ color: skill.color_hex }}
+                                    />
 
-                        <div>
-                          <h3 className={styles.featureTitle}>Awards</h3>
+                                    <span>{skill.name}</span>
 
-                          <p className={styles.featureText}>
-                            <strong>{mainAward.title}</strong>
-                            {mainAward.issuer && ` at ${mainAward.issuer}`}
-                            {mainAward.description &&
-                              ` — ${mainAward.description}`}
-                          </p>
-                        </div>
-                      </article>
+                                    {isAdmin && (
+                                      <span
+                                        className={styles.profileSkillActions}
+                                      >
+                                        <Button
+                                          type="button"
+                                          variant="outline-light"
+                                          size="sm"
+                                          className={styles.profileSkillButton}
+                                          onClick={() =>
+                                            handleOpenEditSkill(skill, group)
+                                          }
+                                          title="Edit skill"
+                                        >
+                                          <i className="fa-solid fa-pen-to-square" />
+                                        </Button>
+
+                                        <Button
+                                          type="button"
+                                          variant="outline-danger"
+                                          size="sm"
+                                          className={styles.profileSkillButton}
+                                          onClick={() =>
+                                            handleDeleteSkill(skill)
+                                          }
+                                          title="Delete skill"
+                                        >
+                                          <i className="fa-solid fa-trash" />
+                                        </Button>
+                                      </span>
+                                    )}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+
+                            {isAdmin && (
+                              <div className={styles.adminMiniActions}>
+                                <Button
+                                  type="button"
+                                  variant="outline-success"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() => handleOpenCreateSkill(group)}
+                                >
+                                  <i className="fa-solid fa-plus" />
+                                  Add skill
+                                </Button>
+
+                                <Button
+                                  type="button"
+                                  variant="outline-light"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() =>
+                                    handleOpenEditSkillGroup(group)
+                                  }
+                                >
+                                  <i className="fa-solid fa-pen-to-square" />
+                                  Edit group
+                                </Button>
+
+                                <Button
+                                  type="button"
+                                  variant="outline-danger"
+                                  size="sm"
+                                  className={styles.adminMiniButton}
+                                  onClick={() => handleDeleteSkillGroup(group)}
+                                >
+                                  <i className="fa-solid fa-trash" />
+                                  Delete group
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                        </article>
+                      ))
                     )}
                   </div>
 
