@@ -1,0 +1,253 @@
+.githubIntro {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(249, 115, 22, 0.2),
+      transparent 36%
+    ),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.72), rgba(5, 5, 8, 0.92));
+  border: 1px solid rgba(249, 115, 22, 0.24);
+  border-radius: 1.5rem;
+  color: #f8fafc;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.35);
+}
+
+.avatar {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border: 2px solid rgba(249, 115, 22, 0.55);
+  border-radius: 50%;
+  box-shadow: 0 0 34px rgba(249, 115, 22, 0.24);
+}
+
+.profileTitle {
+  margin: 0;
+  color: #fb923c;
+  font-size: clamp(2.1rem, 5vw, 4rem);
+  font-weight: 950;
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.profileUsername {
+  margin-top: 0.45rem;
+  color: #cbd5e1;
+  font-weight: 800;
+}
+
+.profileBio {
+  max-width: 820px;
+  margin: 0.8rem 0 0;
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.profileStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.statPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  border-radius: 999px;
+  color: #f8fafc;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.sectionKicker {
+  margin-bottom: 0.45rem;
+  color: #fb923c;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(1.9rem, 4vw, 3.2rem);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+
+.repoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.repoCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1.25rem;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(249, 115, 22, 0.1),
+      transparent 36%
+    ),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.72), rgba(5, 5, 8, 0.9));
+  border: 1px solid rgba(249, 115, 22, 0.18);
+  border-radius: 1.2rem;
+  color: #f8fafc;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.repoCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(249, 115, 22, 0.42);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
+}
+
+.repoTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.repoName {
+  margin: 0;
+  color: #fb923c;
+  font-size: 1.35rem;
+  font-weight: 950;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.repoName a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.repoName a:hover {
+  color: #fdba74;
+}
+
+.visibilityBadge {
+  flex-shrink: 0;
+  padding: 0.25rem 0.55rem;
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.22);
+  border-radius: 999px;
+  color: #fed7aa;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.repoDescription {
+  flex: 1;
+  margin: 0;
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.repoMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1rem;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.repoMetaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.languageDot {
+  display: inline-block;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 999px;
+}
+
+.topicList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.topic {
+  padding: 0.35rem 0.55rem;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 999px;
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.repoActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.1rem;
+}
+
+.emptyState {
+  padding: 1.25rem;
+  color: #cbd5e1;
+  background: rgba(5, 5, 8, 0.72);
+  border: 1px dashed rgba(249, 115, 22, 0.32);
+  border-radius: 1rem;
+}
+
+@media (max-width: 991.98px) {
+  .repoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .githubIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .avatar {
+    width: 82px;
+    height: 82px;
+  }
+
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
