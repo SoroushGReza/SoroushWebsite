@@ -260,3 +260,18 @@
     width: 100%;
   }
 }
+
+.adminActionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.adminMiniButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  position: relative;
+  z-index: 5;
+}

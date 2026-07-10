@@ -1,16 +1,28 @@
 import { useEffect, useState } from "react";
-import { Alert, Container, Spinner } from "react-bootstrap";
+import { Alert, Button, Container, Spinner } from "react-bootstrap";
 
 import ContactInfoList from "../components/contact/ContactInfoList";
 import ContactMessageForm from "../components/contact/ContactMessageForm";
+import ContactProfileModal from "../components/contact/ContactProfileModal";
 import AnimatedHero from "../components/home/AnimatedHero";
-import { getContactProfile } from "../services/contactApi";
+import { useAuth } from "../context/AuthContext";
+import {
+  createContactProfile,
+  deleteContactProfile,
+  getContactProfile,
+  updateContactProfile,
+} from "../services/contactApi";
 import styles from "../styles/Contact.module.css";
 
 function Contact() {
+  const { isAdmin } = useAuth();
+
   const [contactProfile, setContactProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [showContactProfileModal, setShowContactProfileModal] = useState(false);
+  const [isProfileSubmitting, setIsProfileSubmitting] = useState(false);
 
   useEffect(() => {
     async function loadContactProfile() {
@@ -28,6 +40,47 @@ function Contact() {
 
     loadContactProfile();
   }, []);
+
+  async function handleSaveContactProfile(contactData) {
+    setIsProfileSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const savedProfile = contactProfile
+        ? await updateContactProfile(contactProfile.id, contactData)
+        : await createContactProfile(contactData);
+
+      setContactProfile(savedProfile);
+      setShowContactProfileModal(false);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not save contact profile.");
+    } finally {
+      setIsProfileSubmitting(false);
+    }
+  }
+
+  async function handleDeleteContactProfile() {
+    if (!contactProfile) {
+      return;
+    }
+
+    const shouldDelete = window.confirm(
+      "Are you sure you want to delete the Contact profile?",
+    );
+
+    if (!shouldDelete) {
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      await deleteContactProfile(contactProfile.id);
+      setContactProfile(null);
+    } catch (error) {
+      setErrorMessage(error.message || "Could not delete contact profile.");
+    }
+  }
 
   return (
     <>
@@ -68,6 +121,36 @@ function Contact() {
                     {contactProfile.intro_text}
                   </p>
                 )}
+
+                {isAdmin && (
+                  <div className={styles.adminActionRow}>
+                    <Button
+                      type="button"
+                      variant="outline-light"
+                      size="sm"
+                      className={styles.adminMiniButton}
+                      onClick={() => setShowContactProfileModal(true)}
+                    >
+                      <i className="fa-solid fa-pen-to-square" />
+                      {contactProfile
+                        ? "Edit contact profile"
+                        : "Create contact profile"}
+                    </Button>
+
+                    {contactProfile && (
+                      <Button
+                        type="button"
+                        variant="outline-danger"
+                        size="sm"
+                        className={styles.adminMiniButton}
+                        onClick={handleDeleteContactProfile}
+                      >
+                        <i className="fa-solid fa-trash" />
+                        Delete profile
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className={styles.contactShell}>
@@ -91,6 +174,14 @@ function Contact() {
           )}
         </Container>
       </section>
+
+      <ContactProfileModal
+        show={showContactProfileModal}
+        contactProfile={contactProfile}
+        onClose={() => setShowContactProfileModal(false)}
+        onSave={handleSaveContactProfile}
+        isSubmitting={isProfileSubmitting}
+      />
     </>
   );
 }
