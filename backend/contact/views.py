@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.mail import EmailMessage
 from rest_framework import permissions, viewsets
-
+import requests
 from .models import ContactMessage, ContactProfile
 from .serializers import ContactMessageSerializer, ContactProfileSerializer
 
@@ -43,6 +43,7 @@ def send_contact_email(contact_message):
         raise ValueError("No recipient email has been configured.")
 
     from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "") or recipient_email
+    brevo_api_key = getattr(settings, "BREVO_API_KEY", "")
 
     subject = contact_message.subject.strip()
 
@@ -64,6 +65,39 @@ Subject:
 Message:
 {contact_message.message}
 """.strip()
+
+    if brevo_api_key:
+        response = requests.post(
+            "https://api.brevo.com/v3/smtp/email",
+            headers={
+                "accept": "application/json",
+                "api-key": brevo_api_key,
+                "content-type": "application/json",
+            },
+            json={
+                "sender": {
+                    "name": "Portfolio Contact Form",
+                    "email": from_email,
+                },
+                "to": [
+                    {
+                        "email": recipient_email,
+                    }
+                ],
+                "replyTo": {
+                    "email": contact_message.email,
+                    "name": contact_message.name,
+                },
+                "subject": subject,
+                "textContent": body,
+            },
+            timeout=20,
+        )
+
+        if response.status_code >= 400:
+            raise ValueError(response.text)
+
+        return
 
     email = EmailMessage(
         subject=subject,
