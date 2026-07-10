@@ -32,10 +32,18 @@ class SkillGroupAdmin(admin.ModelAdmin):
         "icon_class",
         "color_hex",
         "display_order",
+        "show_in_profile",
         "is_published",
         "updated_at",
     )
-    list_editable = ("icon_class", "color_hex", "display_order", "is_published")
+    list_filter = ("show_in_profile", "is_published")
+    list_editable = (
+        "icon_class",
+        "color_hex",
+        "display_order",
+        "show_in_profile",
+        "is_published",
+    )
     search_fields = ("name", "description", "icon_class")
     ordering = ("display_order", "name")
     inlines = [SkillInline]

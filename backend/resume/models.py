@@ -51,6 +51,10 @@ class SkillGroup(models.Model):
         validators=[hex_color_validator],
     )
     display_order = models.PositiveIntegerField(default=100)
+    show_in_profile = models.BooleanField(
+        default=False,
+        help_text="Show this group as a large card in the Technical profile / My Skills section.",
+    )
     is_published = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

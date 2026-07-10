@@ -76,6 +76,7 @@ class SkillGroupSerializer(serializers.ModelSerializer):
             "icon_class",
             "color_hex",
             "display_order",
+            "show_in_profile",
             "is_published",
             "skills",
             "created_at",
