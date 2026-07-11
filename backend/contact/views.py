@@ -1,7 +1,5 @@
-from django.conf import settings
-from django.core.mail import EmailMessage
 from rest_framework import permissions, viewsets
-import requests
+
 from .models import ContactMessage, ContactProfile
 from .serializers import ContactMessageSerializer, ContactProfileSerializer
 
@@ -11,7 +9,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        return request.user and request.user.is_staff
+        return bool(request.user and request.user.is_staff)
 
 
 class ContactMessagePermission(permissions.BasePermission):
@@ -19,95 +17,7 @@ class ContactMessagePermission(permissions.BasePermission):
         if request.method == "POST":
             return True
 
-        return request.user and request.user.is_staff
-
-
-def get_contact_recipient_email():
-    profile = (
-        ContactProfile.objects.filter(is_published=True)
-        .exclude(email="")
-        .order_by("-updated_at")
-        .first()
-    )
-
-    if profile and profile.email:
-        return profile.email
-
-    return getattr(settings, "CONTACT_FORM_RECEIVER_EMAIL", "")
-
-
-def send_contact_email(contact_message):
-    recipient_email = get_contact_recipient_email()
-
-    if not recipient_email:
-        raise ValueError("No recipient email has been configured.")
-
-    from_email = getattr(settings, "DEFAULT_FROM_EMAIL", "") or recipient_email
-    brevo_api_key = getattr(settings, "BREVO_API_KEY", "")
-
-    subject = contact_message.subject.strip()
-
-    if not subject:
-        subject = f"New contact request from {contact_message.name}"
-
-    body = f"""
-You received a new message from your portfolio contact form.
-
-Name:
-{contact_message.name}
-
-Email:
-{contact_message.email}
-
-Subject:
-{contact_message.subject or "No subject"}
-
-Message:
-{contact_message.message}
-""".strip()
-
-    if brevo_api_key:
-        response = requests.post(
-            "https://api.brevo.com/v3/smtp/email",
-            headers={
-                "accept": "application/json",
-                "api-key": brevo_api_key,
-                "content-type": "application/json",
-            },
-            json={
-                "sender": {
-                    "name": "Portfolio Contact Form",
-                    "email": from_email,
-                },
-                "to": [
-                    {
-                        "email": recipient_email,
-                    }
-                ],
-                "replyTo": {
-                    "email": contact_message.email,
-                    "name": contact_message.name,
-                },
-                "subject": subject,
-                "textContent": body,
-            },
-            timeout=20,
-        )
-
-        if response.status_code >= 400:
-            raise ValueError(response.text)
-
-        return
-
-    email = EmailMessage(
-        subject=subject,
-        body=body,
-        from_email=from_email,
-        to=[recipient_email],
-        reply_to=[contact_message.email],
-    )
-
-    email.send(fail_silently=False)
+        return bool(request.user and request.user.is_staff)
 
 
 class ContactProfileViewSet(viewsets.ModelViewSet):
@@ -132,16 +42,3 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
             return ContactMessage.objects.all()
 
         return ContactMessage.objects.none()
-
-    def perform_create(self, serializer):
-        contact_message = serializer.save()
-
-        try:
-            send_contact_email(contact_message)
-            contact_message.email_sent = True
-            contact_message.error_message = ""
-        except Exception as error:
-            contact_message.email_sent = False
-            contact_message.error_message = str(error)
-
-        contact_message.save(update_fields=["email_sent", "error_message"])

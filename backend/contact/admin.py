@@ -24,12 +24,11 @@ class ContactMessageAdmin(admin.ModelAdmin):
         "name",
         "email",
         "subject",
-        "email_sent",
         "is_read",
         "created_at",
     )
-    list_filter = ("email_sent", "is_read", "created_at")
+    list_filter = ("is_read", "created_at")
     list_editable = ("is_read",)
     search_fields = ("name", "email", "subject", "message")
-    readonly_fields = ("created_at", "email_sent", "error_message")
+    readonly_fields = ("created_at",)
     ordering = ("-created_at",)

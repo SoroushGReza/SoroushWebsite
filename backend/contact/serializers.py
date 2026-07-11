@@ -169,14 +169,10 @@ class ContactMessageSerializer(serializers.ModelSerializer):
             "email",
             "subject",
             "message",
-            "email_sent",
-            "error_message",
             "is_read",
             "created_at",
         ]
         read_only_fields = [
-            "email_sent",
-            "error_message",
             "is_read",
             "created_at",
         ]

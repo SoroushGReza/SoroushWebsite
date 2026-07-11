@@ -59,8 +59,6 @@ class ContactMessage(models.Model):
     subject = models.CharField(max_length=180, blank=True)
     message = models.TextField()
 
-    email_sent = models.BooleanField(default=False)
-    error_message = models.TextField(blank=True)
     is_read = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
