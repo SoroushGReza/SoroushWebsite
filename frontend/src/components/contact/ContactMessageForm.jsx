@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 
-import { sendContactMessage } from "../../services/contactApi";
+import { sendContactEmail } from "../../services/emailService";
 import styles from "../../styles/Contact.module.css";
 
 const emptyMessageForm = {
@@ -34,14 +34,17 @@ function ContactMessageForm() {
     setSuccessMessage("");
 
     try {
-      await sendContactMessage(messageForm);
+      await sendContactEmail(messageForm);
 
       setMessageForm(emptyMessageForm);
       setSuccessMessage(
         "Request successfully submitted. I'll get back to you shortly!",
       );
     } catch (error) {
-      setErrorMessage(error.message || "Could not send your message.");
+      setErrorMessage(
+        error.message ||
+          "Your message could not be sent right now. Please try again.",
+      );
     } finally {
       setIsSending(false);
     }
@@ -82,41 +85,48 @@ function ContactMessageForm() {
       <Form className={styles.contactForm} onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Label className={styles.fieldLabel}>Name</Form.Label>
+
           <Form.Control
             type="text"
             name="name"
             value={messageForm.name}
             onChange={handleChange}
             placeholder="Your name"
+            autoComplete="name"
             required
           />
         </Form.Group>
 
         <Form.Group>
           <Form.Label className={styles.fieldLabel}>Email</Form.Label>
+
           <Form.Control
             type="email"
             name="email"
             value={messageForm.email}
             onChange={handleChange}
             placeholder="your@email.com"
+            autoComplete="email"
             required
           />
         </Form.Group>
 
         <Form.Group>
           <Form.Label className={styles.fieldLabel}>Subject</Form.Label>
+
           <Form.Control
             type="text"
             name="subject"
             value={messageForm.subject}
             onChange={handleChange}
             placeholder="Project request, collaboration, question..."
+            maxLength={180}
           />
         </Form.Group>
 
         <Form.Group>
           <Form.Label className={styles.fieldLabel}>Message</Form.Label>
+
           <Form.Control
             as="textarea"
             rows={6}
