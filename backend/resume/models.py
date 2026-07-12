@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
+from config.storage_backends import get_raw_media_storage
 
 hex_color_validator = RegexValidator(
     regex=r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
@@ -205,6 +206,7 @@ class Award(models.Model):
     award_date = models.DateField(blank=True, null=True)
     file = models.FileField(
         upload_to="resume/awards/",
+        storage=get_raw_media_storage,
         validators=[validate_award_file],
         blank=True,
         null=True,

@@ -112,9 +112,6 @@ REST_FRAMEWORK = {
 INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
-    # Cloudinary
-    "cloudinary_storage",
-    "cloudinary",
     # Project applications
     "portfolio",
     "cv",
@@ -129,6 +126,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Cloudinary handles uploaded media files only.
+    "cloudinary_storage",
+    "cloudinary",
 ]
 
 
