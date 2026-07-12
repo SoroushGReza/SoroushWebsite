@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
-
+import { sendContactMessage } from "../../services/contactApi";
 import { sendContactEmail } from "../../services/emailService";
 import styles from "../../styles/Contact.module.css";
 
@@ -35,6 +35,15 @@ function ContactMessageForm() {
 
     try {
       await sendContactEmail(messageForm);
+
+      try {
+        await sendContactMessage(messageForm);
+      } catch (backupError) {
+        console.error(
+          "The email was sent, but the message could not be saved in Django:",
+          backupError,
+        );
+      }
 
       setMessageForm(emptyMessageForm);
       setSuccessMessage(
