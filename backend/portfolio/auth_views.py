@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.middleware.csrf import get_token
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from rest_framework import status
@@ -21,7 +22,12 @@ class CsrfTokenView(APIView):
     authentication_classes = []
 
     def get(self, request):
-        return Response({"detail": "CSRF cookie set"})
+        return Response(
+            {
+                "detail": "CSRF cookie set",
+                "csrfToken": get_token(request),
+            }
+        )
 
 
 class CurrentUserView(APIView):

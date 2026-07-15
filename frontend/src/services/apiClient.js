@@ -1,21 +1,25 @@
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
-function getCookie(name) {
-  const cookies = document.cookie ? document.cookie.split("; ") : [];
-  const cookie = cookies.find((item) => item.startsWith(`${name}=`));
-
-  if (!cookie) {
-    return "";
-  }
-
-  return decodeURIComponent(cookie.split("=")[1]);
-}
+let csrfToken = "";
 
 export async function ensureCsrfCookie() {
-  await fetch(`${API_BASE_URL}/api/auth/csrf/`, {
+  const response = await fetch(`${API_BASE_URL}/api/auth/csrf/`, {
     credentials: "include",
   });
+
+  const contentType = response.headers.get("content-type") || "";
+  const data = contentType.includes("application/json")
+    ? await response.json()
+    : null;
+
+  if (!response.ok) {
+    throw new Error("Could not initialize CSRF protection.");
+  }
+
+  csrfToken = data?.csrfToken || "";
+
+  return csrfToken;
 }
 
 export async function apiRequest(path, options = {}) {
@@ -51,13 +55,12 @@ export async function apiRequest(path, options = {}) {
 }
 
 export async function csrfRequest(path, options = {}) {
-  await ensureCsrfCookie();
+  const token = await ensureCsrfCookie();
 
-  const csrfToken = getCookie("csrftoken");
   const headers = new Headers(options.headers || {});
 
-  if (csrfToken) {
-    headers.set("X-CSRFToken", csrfToken);
+  if (token) {
+    headers.set("X-CSRFToken", token);
   }
 
   return apiRequest(path, {
