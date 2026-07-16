@@ -1,5 +1,9 @@
+const configuredApiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL?.trim();
+
 export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+  configuredApiBaseUrl ||
+  (import.meta.env.DEV ? "http://localhost:8000" : "");
 
 let csrfToken = "";
 
@@ -9,6 +13,7 @@ export async function ensureCsrfCookie() {
   });
 
   const contentType = response.headers.get("content-type") || "";
+
   const data = contentType.includes("application/json")
     ? await response.json()
     : null;
@@ -38,13 +43,14 @@ export async function apiRequest(path, options = {}) {
   });
 
   const contentType = response.headers.get("content-type") || "";
+
   const data = contentType.includes("application/json")
     ? await response.json()
     : await response.text();
 
   if (!response.ok) {
     const message =
-      typeof data === "object" && data.detail
+      typeof data === "object" && data?.detail
         ? data.detail
         : "API request failed.";
 
@@ -56,7 +62,6 @@ export async function apiRequest(path, options = {}) {
 
 export async function csrfRequest(path, options = {}) {
   const token = await ensureCsrfCookie();
-
   const headers = new Headers(options.headers || {});
 
   if (token) {
