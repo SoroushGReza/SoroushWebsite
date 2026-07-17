@@ -6,7 +6,7 @@
       "destination": "https://soroushwebsite.onrender.com/api/:path*"
     },
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
