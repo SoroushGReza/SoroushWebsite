@@ -1,9 +1,12 @@
-const configuredApiBaseUrl =
-  import.meta.env.VITE_API_BASE_URL?.trim();
+const localApiBaseUrl = (
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"
+).replace(/\/$/, "");
 
-export const API_BASE_URL =
-  configuredApiBaseUrl ||
-  (import.meta.env.DEV ? "http://localhost:8000" : "");
+// Lokalt används Django på localhost.
+// I production används Vercels /api-proxy från vercel.json.
+export const API_BASE_URL = import.meta.env.DEV
+  ? localApiBaseUrl
+  : "";
 
 let csrfToken = "";
 
@@ -19,17 +22,23 @@ export async function ensureCsrfCookie() {
     : null;
 
   if (!response.ok) {
-    throw new Error("Could not initialize CSRF protection.");
+    throw new Error(
+      data?.detail || "Could not initialize CSRF protection."
+    );
   }
 
   csrfToken = data?.csrfToken || "";
+
+  if (!csrfToken) {
+    throw new Error("The backend did not return a CSRF token.");
+  }
 
   return csrfToken;
 }
 
 export async function apiRequest(path, options = {}) {
   const headers = new Headers(options.headers || {});
-  const hasBody = Boolean(options.body);
+  const hasBody = options.body !== undefined && options.body !== null;
   const isFormData = options.body instanceof FormData;
 
   if (hasBody && !isFormData && !headers.has("Content-Type")) {
@@ -37,9 +46,9 @@ export async function apiRequest(path, options = {}) {
   }
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
-    credentials: "include",
     ...options,
     headers,
+    credentials: "include",
   });
 
   const contentType = response.headers.get("content-type") || "";
@@ -52,7 +61,7 @@ export async function apiRequest(path, options = {}) {
     const message =
       typeof data === "object" && data?.detail
         ? data.detail
-        : "API request failed.";
+        : `API request failed with status ${response.status}.`;
 
     throw new Error(message);
   }
@@ -64,9 +73,7 @@ export async function csrfRequest(path, options = {}) {
   const token = await ensureCsrfCookie();
   const headers = new Headers(options.headers || {});
 
-  if (token) {
-    headers.set("X-CSRFToken", token);
-  }
+  headers.set("X-CSRFToken", token);
 
   return apiRequest(path, {
     ...options,
